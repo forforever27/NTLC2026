@@ -3,7 +3,7 @@ name: Deploy site to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ["site/**", ".github/workflows/pages.yml"]
+    paths: ["site/**", "hq-src/**", "tools/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -23,9 +23,22 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Encrypt committee HQ content
+        env:
+          HQ_PASSWORD: ${{ secrets.HQ_PASSWORD }}
+        run: |
+          if [ -z "$HQ_PASSWORD" ]; then
+            echo "::error::Repo secret HQ_PASSWORD is not set (Settings -> Secrets and variables -> Actions)."
+            exit 1
+          fi
+          node tools/build-hq.mjs
+      - name: Exclude plaintext sources from deployment
+        run: |
+          mkdir deploy
+          cp -r site/. deploy/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: deploy
       - id: deployment
         uses: actions/deploy-pages@v4

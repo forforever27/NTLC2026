@@ -15,21 +15,15 @@ Planning hub for the 3-hour camp activity session. Deployed to GitHub Pages.
 
 ## Editing committee content
 
-1. Edit the HTML fragments in `hq-src/` (one file per page; `roles/` has one per committee member).
-2. Rebuild the encrypted payload:
+Edit the HTML fragments in `hq-src/` (one file per page; `roles/` has one per committee member), commit, push. The deploy workflow encrypts them automatically — `site/hq/payload.json` is generated in CI, never committed.
 
-   ```bash
-   HQ_PASSWORD="your-password" node tools/build-hq.mjs
-   ```
+To preview locally: `HQ_PASSWORD="your-password" node tools/build-hq.mjs`, then serve `site/` (e.g. `npx serve site`).
 
-3. Commit and push. GitHub Pages redeploys automatically.
+## Deploying — one-time setup
 
-The password is **not stored anywhere in this repo**. Share it with committee members privately.
-
-## Deploying
-
-GitHub Pages is deployed via Actions from `site/` only (`.github/workflows/pages.yml`).
-One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+1. Repo **Settings → Pages → Source: GitHub Actions**
+2. Repo **Settings → Secrets and variables → Actions → New repository secret**: name `HQ_PASSWORD`, value = the committee password (share it privately; it is stored nowhere in this repo)
+3. Merge to `main` — the workflow builds and deploys `site/` only.
 
 ## ⚠️ Access-control notes
 

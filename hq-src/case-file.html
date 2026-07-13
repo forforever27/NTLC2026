@@ -58,6 +58,41 @@
   <tr><td class="num">7</td><td>Manager's Office</td><td>"Lawyer's appointment slip: Mr. Reed was downtown signing the blackmail settlement at midnight — and the Intern drove him there. The office was locked; only Reed holds the key."</td><td>Reed · Intern · Office as scene</td></tr>
 </table></div>
 
+<h2>The elimination matrix — how the answer emerges</h2>
+<p>Read a column top to bottom to see everything one clue kills; read a row to see which clue clears each possibility. The rows nothing touches are the answer.</p>
+<style>
+  .elim td,.elim th{text-align:center;padding:.3rem .4rem}
+  .elim td:first-child{text-align:left;white-space:nowrap}
+  .elim .x{color:var(--accent);font-weight:700}
+  .elim .ans td{background:var(--gold-soft);font-weight:700}
+  .elim .sec td{background:var(--accent-soft);color:var(--accent);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;text-align:left}
+</style>
+<div class="tablewrap"><table class="elim">
+  <tr><th></th><th>C1<br>Studio</th><th>C2<br>Control</th><th>C3<br>Archive</th><th>C4<br>News</th><th>C5<br>Green</th><th>C6<br>Rooftop</th><th>C7<br>Office</th></tr>
+  <tr class="sec"><td colspan="8">WHO</td></tr>
+  <tr><td>Stella</td><td></td><td class="x">✖</td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Mr. Reed</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="x">✖</td></tr>
+  <tr class="ans"><td>Tuner Tan ✔</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Miss Echo</td><td></td><td></td><td></td><td class="x">✖</td><td></td><td></td><td></td></tr>
+  <tr><td>Jingle Joe</td><td></td><td></td><td></td><td></td><td class="x">✖</td><td></td><td></td></tr>
+  <tr><td>The Intern</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="x">✖</td></tr>
+  <tr class="sec"><td colspan="8">HOW</td></tr>
+  <tr><td>Rigged mic</td><td></td><td class="x">✖</td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr class="ans"><td>Poisoned coffee ✔</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Golden Mic trophy</td><td class="x">✖</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Headphone cable</td><td></td><td></td><td></td><td></td><td></td><td class="x">✖</td><td></td></tr>
+  <tr><td>Vinyl shard</td><td class="x">✖</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Reel-to-reel machine</td><td></td><td></td><td></td><td></td><td></td><td class="x">✖</td><td></td></tr>
+  <tr class="sec"><td colspan="8">WHERE</td></tr>
+  <tr><td>Live Studio</td><td class="x">✖</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr class="ans"><td>Control Room ✔</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Record Archive</td><td></td><td></td><td class="x">✖</td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Newsroom</td><td></td><td></td><td></td><td class="x">✖</td><td></td><td></td><td></td></tr>
+  <tr><td>Green Room</td><td></td><td></td><td></td><td></td><td class="x">✖</td><td></td><td></td></tr>
+  <tr><td>Rooftop Antenna</td><td></td><td></td><td class="x">✖</td><td></td><td></td><td></td><td></td></tr>
+  <tr><td>Manager's Office</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="x">✖</td></tr>
+</table></div>
+
 <div class="callout"><b>Solvability check (verified):</b><br>
 <b>Suspects</b> — clues 2, 4, 5, 7 eliminate Stella, Echo, Joe, Reed + Intern → <span class="answer">Tan</span>.<br>
 <b>Methods</b> — clues 1, 2, 6 eliminate trophy, shard, mic, cable, reel → <span class="answer">poisoned coffee</span>.<br>

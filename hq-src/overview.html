@@ -3,6 +3,78 @@
 <h1>Dead Air — What this game is</h1>
 <p><b>In one sentence:</b> 8 teams of campers race through 7 themed rooms, win a mini-game in each room to earn a clue card, and use those clues to be the first to correctly accuse <b>WHO</b> killed the DJ, <b>HOW</b>, and <b>WHERE</b>.</p>
 
+<h2>The whole game in one picture</h2>
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;margin:.5rem 0" role="img" aria-label="Game loop diagram">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="var(--soft)"/>
+    </marker>
+  </defs>
+  <style>
+    .bx{fill:var(--card);stroke:var(--line);rx:8}
+    .bt{font:600 13px sans-serif;fill:var(--ink)}
+    .bs{font:11px sans-serif;fill:var(--soft)}
+    .lb{font:600 10px sans-serif;fill:var(--soft);letter-spacing:.08em}
+    .fl{fill:none;stroke:var(--soft);stroke-width:1.5;marker-end:url(#arr)}
+  </style>
+  <!-- 1 Opening -->
+  <rect class="bx" x="10" y="90" width="120" height="70" rx="8"/>
+  <text class="bt" x="70" y="118" text-anchor="middle">1 · OPENING</text>
+  <text class="bs" x="70" y="136" text-anchor="middle">body found, rules,</text>
+  <text class="bs" x="70" y="150" text-anchor="middle">notebooks issued</text>
+  <!-- 2 Pick room -->
+  <rect class="bx" x="175" y="90" width="130" height="70" rx="8"/>
+  <text class="bt" x="240" y="118" text-anchor="middle">2 · PICK A ROOM</text>
+  <text class="bs" x="240" y="136" text-anchor="middle">any free room of 7</text>
+  <text class="bs" x="240" y="150" text-anchor="middle">(one team per room)</text>
+  <!-- 3 Win game -->
+  <rect class="bx" x="350" y="90" width="130" height="70" rx="8"/>
+  <text class="bt" x="415" y="118" text-anchor="middle">3 · WIN MINI-GAME</text>
+  <text class="bs" x="415" y="136" text-anchor="middle">~8–10 min, whole</text>
+  <text class="bs" x="415" y="150" text-anchor="middle">team must play</text>
+  <!-- 4 Clue -->
+  <rect x="525" y="90" width="120" height="70" rx="8" fill="var(--gold-soft)" stroke="var(--gold)"/>
+  <text class="bt" x="585" y="118" text-anchor="middle" fill="var(--gold)">4 · CLUE CARD</text>
+  <text class="bs" x="585" y="136" text-anchor="middle">crosses suspects /</text>
+  <text class="bs" x="585" y="150" text-anchor="middle">methods / places off</text>
+  <!-- loop back -->
+  <path class="fl" d="M585 90 C585 40 240 40 240 84"/>
+  <text class="lb" x="412" y="38" text-anchor="middle">REPEAT × 7 ROOMS (+ trade the split clue with another team)</text>
+  <!-- 5 Accuse -->
+  <rect x="350" y="215" width="180" height="70" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
+  <text class="bt" x="440" y="243" text-anchor="middle" fill="var(--accent)">5 · ACCUSE AT HQ (from 0:45)</text>
+  <text class="bs" x="440" y="261" text-anchor="middle">WHO + HOW + WHERE</text>
+  <text class="bs" x="440" y="275" text-anchor="middle">right = WIN · wrong = 15-min lockout</text>
+  <path class="fl" d="M585 160 C585 235 540 250 536 250"/>
+  <!-- wrong loops back -->
+  <path class="fl" d="M350 250 C120 250 240 190 240 166"/>
+  <text class="lb" x="255" y="230" text-anchor="middle">wrong? keep playing rooms</text>
+  <!-- arrows between boxes -->
+  <path class="fl" d="M130 125 L169 125"/>
+  <path class="fl" d="M305 125 L344 125"/>
+  <path class="fl" d="M480 125 L519 125"/>
+</svg>
+
+<h2>The map — 7 rooms + HQ at a glance</h2>
+<style>
+  .roommap{display:grid;grid-template-columns:repeat(auto-fit,minmax(10.5rem,1fr));gap:.6rem;margin:1rem 0}
+  .roommap .rm{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:.6rem .7rem;font-size:.8rem}
+  .roommap .rm b{display:block;font-size:.85rem}
+  .roommap .rm .who{color:var(--accent);font-weight:600}
+  .roommap .rm .game{color:var(--soft)}
+  .roommap .hq{background:var(--accent-soft);border-color:var(--accent)}
+</style>
+<div class="roommap">
+  <div class="rm"><b>1 · Live Studio</b><span class="who">"Static" Stella — rival DJ</span><br><span class="game">🎙 One Take — record a flawless 30-s bulletin</span></div>
+  <div class="rm"><b>2 · Control Room</b><span class="who">Tuner Tan — sound engineer</span><br><span class="game">📻 Find the Frequency — tune to 3 hidden signals</span></div>
+  <div class="rm"><b>3 · Record Archive</b><span class="who">The Intern</span><br><span class="game">🗂 Sort the Stacks — shelve records by a twisted rule</span></div>
+  <div class="rm"><b>4 · Newsroom</b><span class="who">Miss Echo — newsreader</span><br><span class="game">📰 Stop the Presses — rebuild the shredded exposé</span></div>
+  <div class="rm"><b>5 · Green Room</b><span class="who">Silent witness (janitor)</span><br><span class="game">🤫 The Silent Witness — charades · SPLIT CLUE, must trade</span></div>
+  <div class="rm"><b>6 · Rooftop Antenna</b><span class="who">Jingle Joe — jingle writer</span><br><span class="game">🔦 Signal Relay — flashlight Morse across a gap</span></div>
+  <div class="rm"><b>7 · Manager's Office</b><span class="who">Mr. Reed — station manager</span><br><span class="game">🔐 The Locked Drawer — 3 puzzles open the padlock</span></div>
+  <div class="rm hq"><b>HQ · Detective's Office</b><span class="who">2 crew, not a suspect</span><br><span class="game">⚖ Accusations (from 0:45) · hint sales · split-clue tokens · scoreboard</span></div>
+</div>
+
 <h2>The story the players see</h2>
 <p>It's midnight at <b>Radio 1926 FM</b>. The station's star DJ — Maxwell "Mad Max" Loh, famous for filling the airwaves with gossip, hype and noise — is found dead in the Live Studio, headphones on, the transmitter broadcasting pure static. Six station staff were in the building. Every one of them had a reason. The teams are detectives called in before the police arrive.</p>
 

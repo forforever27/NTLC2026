@@ -7,31 +7,22 @@
 <title>Station Crew — HQ</title>
 <style>
   :root{
-    --paper:#f7f4ed;--ink:#23201a;--soft:#5c564a;--line:#d9d3c4;--card:#fffdf8;
-    --accent:#8a2f2b;--accent-soft:#f0e2df;--gold:#a07a2c;--gold-soft:#efe6d2;
-    --good:#3a6b46;--tag:#ece7db;--dig:#2c5a78;--dig-soft:#e0eaf1;
+    --paper:#f6f5f1;--ink:#181713;--soft:#6d685d;--line:#e2dfd6;--card:#fdfcf9;
+    --accent:#b93a21;--accent-soft:#f6e7e1;--gold:#877f6c;--gold-soft:#eeece4;
+    --good:#31694a;--tag:#edebe3;--dig:#3c6478;--dig-soft:#e3ebef;
   }
   @media (prefers-color-scheme: dark){:root{
-    --paper:#1c1a16;--ink:#ece7db;--soft:#a89f8d;--line:#3a362d;--card:#26231d;
-    --accent:#d4756f;--accent-soft:#3a2523;--gold:#c9a55a;--gold-soft:#332b1c;
-    --good:#7fb98d;--tag:#302c24;--dig:#7fb0d0;--dig-soft:#1f2e38;}}
+    --paper:#141311;--ink:#e8e5dd;--soft:#98937f;--line:#2c2a25;--card:#1c1b18;
+    --accent:#e0603f;--accent-soft:#33201a;--gold:#a29a85;--gold-soft:#24221c;
+    --good:#79b18c;--tag:#232119;--dig:#7fa5bb;--dig-soft:#1e2a31;}}
   *{box-sizing:border-box}
   :root{--mono:"Courier New",ui-monospace,SFMono-Regular,Menlo,monospace;
     --serif:Charter,Georgia,"Times New Roman",serif}
   body{margin:0;background:var(--paper);color:var(--ink);
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;line-height:1.65}
-  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;
-    background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 3px);
-    opacity:.35;mix-blend-mode:multiply}
-  @media (prefers-color-scheme:dark){body::after{background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);mix-blend-mode:normal;opacity:.25}}
-  @media print{body::after{display:none}}
-  @media (prefers-color-scheme:dark){
-    main h1{text-shadow:-1.5px 0 1px rgba(255,84,72,.35), 1.5px 0 1px rgba(96,160,255,.25)}
-    nav .brand{text-shadow:-1px 0 1px rgba(255,84,72,.3), 1px 0 1px rgba(96,160,255,.22)}
-  }
-  main a{color:var(--ink);text-decoration:underline;text-decoration-style:dotted;
-    text-decoration-color:var(--gold);text-underline-offset:3px}
-  main a:hover{color:var(--gold)}
+  main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);
+    text-decoration-thickness:1px;text-underline-offset:3px}
+  main a:hover{color:var(--accent)}
   /* ---- app ---- */
   #app{display:none}
   .layout{display:grid;grid-template-columns:16rem 1fr;min-height:100vh}
@@ -49,7 +40,10 @@
   nav a.on{color:var(--accent);font-weight:600}
   nav a.on .idx{color:var(--accent)}
   nav a:hover{border-bottom-color:var(--line)}
-  main{padding:2.2rem clamp(1.1rem,4vw,3.5rem) 5rem;max-width:52rem;min-width:0}
+  main{padding:2.4rem clamp(1.1rem,4vw,3.5rem) 6rem;max-width:46rem;min-width:0;
+    font-size:1.02rem}
+  main p,main li{max-width:62ch}
+  main li{margin:.45rem 0}
   /* ---- mobile top bar + drawer ---- */
   #topbar{display:none}
   #scrim{display:none}
@@ -117,6 +111,13 @@
   li{margin:.3rem 0}
   .do{color:var(--good)} .dont{color:var(--accent)}
   .do::before{content:"✓ ";font-weight:700} .dont::before{content:"✗ ";font-weight:700}
+  /* ---- on-this-page toc ---- */
+  .ptoc{display:flex;flex-wrap:wrap;gap:.35rem .8rem;margin:1.1rem 0 .4rem;padding:0}
+  .ptoc a{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;color:var(--soft);
+    text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:.1rem}
+  .ptoc a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+  .ptoc a i{font-style:normal;color:var(--accent);margin-right:.3em}
+  .ptoc .zh{display:inline}
   /* ---- language toggle ---- */
   #langsw{position:fixed;bottom:1rem;right:1rem;z-index:50;display:flex;gap:.15rem;
     background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.2rem;
@@ -201,7 +202,23 @@ function route() {
   if (!DB) return;
   const id = location.hash.slice(1) || DB.pages[0].id;
   const pg = DB.pages.find(p => p.id === id) || DB.pages[0];
-  document.getElementById("page").innerHTML = pg.html;
+  const page = document.getElementById("page");
+  page.innerHTML = pg.html;
+  const h2s = [...page.querySelectorAll("h2")];
+  if (h2s.length >= 4) {
+    const toc = document.createElement("nav");
+    toc.className = "ptoc";
+    h2s.forEach((h, i) => {
+      h.id = "s" + (i + 1);
+      const a = document.createElement("a");
+      a.href = "javascript:void(0)";
+      a.innerHTML = "<i>" + String(i + 1).padStart(2, "0") + "</i>" + h.innerHTML;
+      a.addEventListener("click", () => h.scrollIntoView({ behavior: "smooth", block: "start" }));
+      toc.appendChild(a);
+    });
+    const h1 = page.querySelector("h1");
+    if (h1) h1.after(toc);
+  }
   document.querySelectorAll("nav a").forEach(a => a.classList.toggle("on", a.dataset.id === pg.id));
   document.getElementById("tpage").textContent = pg.title;
   window.scrollTo(0, 0);

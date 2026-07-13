@@ -9,6 +9,7 @@ const srcDir = join(root, "hq-src");
 
 // Page order & grouping for the sidebar. id = filename without .html
 const NAV = [
+  { group: "Hub · 中心", pages: ["start"] },
   { group: "Plan · 计划", pages: ["overview", "case-file", "night-of", "run-sheet", "flavor", "props-checklist", "props-text", "print-pack"] },
   { group: "Stations · 关卡", pages: [
     "roles/studio-stella", "roles/control-tan", "roles/archive-intern",

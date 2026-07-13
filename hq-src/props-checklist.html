@@ -48,11 +48,12 @@
 
 <h2>Digital props (built in this repo, run offline)</h2>
 <div class="tablewrap"><table>
-  <tr><th>App</th><th>URL path</th><th>Station</th><th>Player-safe?</th></tr>
-  <tr><td>Frequency Tuner</td><td><code>/props/tuner/</code></td><td>Control Room</td><td>✅ fragments encrypted; unlock only at correct frequencies</td></tr>
-  <tr><td>Accusation Terminal</td><td><code>/props/accuse/</code></td><td>HQ desk</td><td>✅ answer stored as hash; enforces lock-outs; scoreboard</td></tr>
-  <tr><td>Morse Checker</td><td><code>/props/morse/</code></td><td>Rooftop (optional)</td><td>✅ answers hashed</td></tr>
+  <tr><th>App</th><th>Open it</th><th>Station</th><th>Player-safe?</th></tr>
+  <tr><td>Frequency Tuner</td><td><a href="../props/tuner/" target="_blank" rel="noopener"><code>/props/tuner/</code> ↗</a></td><td>Control Room</td><td>Yes — fragments encrypted; unlock only at correct frequencies</td></tr>
+  <tr><td>Accusation Terminal</td><td><a href="../props/accuse/" target="_blank" rel="noopener"><code>/props/accuse/</code> ↗</a></td><td>HQ desk</td><td>Yes — answer stored as hash; enforces lock-outs; scoreboard</td></tr>
+  <tr><td>Morse Checker</td><td><a href="../props/morse/" target="_blank" rel="noopener"><code>/props/morse/</code> ↗</a></td><td>Rooftop (optional)</td><td>Yes — answers hashed</td></tr>
 </table></div>
+<p style="font-size:.85rem;color:var(--soft)">Links open the live apps in a new tab (they also work offline if you save the page). Load them on each station's device before the game and test.</p>
 <div class="callout"><b>Access rule:</b> players only ever get <code>/props/...</code> URLs (or the apps are simply pre-loaded on the station device). Those pages contain no links to this HQ and no readable answers in their source. This HQ is password-gated and encrypted.</div>
 
 <h2>Config values (committee only)</h2>

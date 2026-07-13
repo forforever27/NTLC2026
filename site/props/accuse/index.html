@@ -39,8 +39,8 @@
 </head>
 <body>
 <div class="term">
-  <button class="gear" id="gear" title="Staff settings" aria-label="Staff settings">⚙</button>
-  <h1>DETECTIVE BUREAU</h1>
+  <button class="gear" id="gear" title="Staff settings" aria-label="Staff settings"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg></button>
+  <h1><svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:-3px;margin-right:.35rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4.5"/></svg>DETECTIVE BUREAU</h1>
   <div class="sub">Formal Accusation Terminal · Case № 1926 <span class="badge final hidden" id="fw">FINAL WINDOW</span></div>
 
   <!-- GM SETUP -->
@@ -133,7 +133,7 @@ function render() {
   const locks = store.get("locks") || {};
   const until = locks[team] || 0;
   if (!store.get("final") && team && until > Date.now()) {
-    $("lock").textContent = "⛔ " + team + " is locked out for another " + Math.ceil((until - Date.now()) / 60000) + " min.";
+    $("lock").innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-1px;margin-right:.25rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' + team + " is locked out for another " + Math.ceil((until - Date.now()) / 60000) + " min.";
   } else $("lock").textContent = "";
 }
 $("team").addEventListener("change", render);
@@ -156,7 +156,7 @@ function sting(good) {
 }
 
 $("accuse").addEventListener("click", async () => {
-  if (!store.get("hs")) { alert("Terminal not armed. Staff must complete setup (⚙)."); return; }
+  if (!store.get("hs")) { alert("Terminal not armed. Staff must complete setup (gear button, top right)."); return; }
   const team = $("team").value, s = $("s").value, m = $("m").value, r = $("r").value;
   const res = $("res");
   if (!team || !s || !m || !r) { alert("Select your team and all three parts of the accusation."); return; }
@@ -181,13 +181,13 @@ $("accuse").addEventListener("click", async () => {
     log.push({ t, team, v: correct ? "CORRECT" : "FINAL FILED" });
     store.set("log", log);
     res.className = "result right";
-    res.innerHTML = "FINAL ACCUSATION FILED.<small>Sealed until the reveal. (Staff: rankings under ⚙ → console)</small>";
+    res.innerHTML = "FINAL ACCUSATION FILED.<small>Sealed until the reveal. (Staff: rankings via daRanking() in the console)</small>";
     if (correct) sting(true);
   } else if (correct) {
     log.push({ t, team, v: "CORRECT" }); store.set("log", log);
     sting(true);
     res.className = "result right";
-    res.innerHTML = "🎉 CASE CLOSED. " + team + " has solved the murder of Mad Max.<small>Summon the emcee. The city thanks you, detectives.</small>";
+    res.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" style="display:block;margin:0 auto .3rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5L15.5 9"/></svg>CASE CLOSED. ' + team + " has solved the murder of Mad Max.<small>Summon the emcee. The city thanks you, detectives.</small>";
   } else {
     locks[team] = Date.now() + LOCKOUT_MS; store.set("locks", locks);
     log.push({ t, team, v: "WRONG" }); store.set("log", log);

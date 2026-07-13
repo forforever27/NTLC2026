@@ -41,13 +41,28 @@
 </head>
 <body>
 <div class="radio">
-  <h1>RX-1926 FIELD RECEIVER</h1>
+  <h1><svg viewBox="0 0 24 24" width="22" height="22" style="vertical-align:-4px;margin-right:.35rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg>RX-1926 FIELD RECEIVER</h1>
   <div class="sub">Property of Radio 1926 FM · Engineering Dept.</div>
   <div class="display">
     <div class="freq"><span id="f">88.0</span> <small>MHz</small></div>
     <div class="status" id="status">— receiver off —</div>
   </div>
   <input type="range" id="dial" min="880" max="1080" value="880" step="1" aria-label="Frequency dial">
+  <svg viewBox="0 0 400 26" style="width:100%;display:block;margin:-.4rem 0 .4rem" aria-hidden="true">
+    <line x1="8" y1="4" x2="392" y2="4" stroke="var(--line)" stroke-width="1"/>
+    <g stroke="var(--soft)" stroke-width="1">
+      <line x1="8" y1="4" x2="8" y2="14"/><line x1="46.4" y1="4" x2="46.4" y2="14"/>
+      <line x1="84.8" y1="4" x2="84.8" y2="14"/><line x1="123.2" y1="4" x2="123.2" y2="14"/>
+      <line x1="161.6" y1="4" x2="161.6" y2="14"/><line x1="200" y1="4" x2="200" y2="14"/>
+      <line x1="238.4" y1="4" x2="238.4" y2="14"/><line x1="276.8" y1="4" x2="276.8" y2="14"/>
+      <line x1="315.2" y1="4" x2="315.2" y2="14"/><line x1="353.6" y1="4" x2="353.6" y2="14"/>
+      <line x1="392" y1="4" x2="392" y2="14"/>
+    </g>
+    <g font-family="inherit" font-size="8" fill="var(--soft)" text-anchor="middle">
+      <text x="8" y="24">88</text><text x="84.8" y="24">92</text><text x="161.6" y="24">96</text>
+      <text x="238.4" y="24">100</text><text x="315.2" y="24">104</text><text x="392" y="24">108</text>
+    </g>
+  </svg>
   <div class="fine">
     <button id="down" aria-label="Fine tune down">−</button>
     <button id="up" aria-label="Fine tune up">+</button>

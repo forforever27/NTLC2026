@@ -15,13 +15,13 @@ if (!password) {
 
 // Page order & grouping for the sidebar. id = filename without .html
 const NAV = [
-  { group: "Plan", pages: ["overview", "case-file", "night-of", "run-sheet", "flavor", "props-checklist", "print-pack"] },
-  { group: "Stations", pages: [
+  { group: "Plan · 计划", pages: ["overview", "case-file", "night-of", "run-sheet", "flavor", "props-checklist", "print-pack"] },
+  { group: "Stations · 关卡", pages: [
     "roles/studio-stella", "roles/control-tan", "roles/archive-intern",
     "roles/newsroom-echo", "roles/greenroom-witness", "roles/rooftop-joe",
     "roles/office-reed",
   ]},
-  { group: "Crew", pages: ["roles/hq-desk", "roles/emcee", "roles/floater"] },
+  { group: "Crew · 团队", pages: ["roles/hq-desk", "roles/emcee", "roles/floater"] },
 ];
 
 function loadPage(id) {

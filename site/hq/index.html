@@ -77,6 +77,18 @@
   li{margin:.3rem 0}
   .do{color:var(--good)} .dont{color:var(--accent)}
   .do::before{content:"✓ ";font-weight:700} .dont::before{content:"✗ ";font-weight:700}
+  /* ---- language toggle ---- */
+  #langsw{position:fixed;bottom:1rem;right:1rem;z-index:50;display:flex;gap:.15rem;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.2rem;
+    box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  #langsw button{border:none;background:none;color:var(--soft);font-size:.74rem;font-weight:600;
+    padding:.25rem .65rem;border-radius:999px;cursor:pointer;font-family:inherit}
+  #langsw button.on{background:var(--accent-soft);color:var(--accent)}
+  span.zh{display:block}
+  span.zh.inline{display:inline}
+  html[data-lang="en"] .zh{display:none!important}
+  html[data-lang="zh"] .en{display:none!important}
+  @media print{#langsw{display:none}}
 </style>
 </head>
 <body>
@@ -84,9 +96,9 @@
   <div class="box">
     <div><svg viewBox="0 0 24 24" width="44" height="44" style="margin-bottom:.4rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg></div>
     <h1>Station Crew HQ</h1>
-    <p>Committee access only. Enter the crew password.</p>
+    <p><span class="en">Committee access only. Enter the crew password.</span><span class="zh">仅限筹委进入。请输入工作人员密码。</span></p>
     <input id="pw" type="password" autocomplete="off" autofocus>
-    <button id="go">Unlock</button>
+    <button id="go"><span class="en">Unlock</span><span class="zh inline">解锁</span></button>
     <div class="err" id="err"></div>
   </div>
 </div>
@@ -96,7 +108,19 @@
   <main id="page"></main>
 </div></div>
 
+<div id="langsw" role="group" aria-label="Language">
+  <button data-l="en">EN</button><button data-l="zh">中文</button><button data-l="both">EN+中</button>
+</div>
+
 <script>
+const setLang = l => {
+  document.documentElement.dataset.lang = l;
+  try { localStorage.setItem("da:lang", l); } catch {}
+  document.querySelectorAll("#langsw button").forEach(b => b.classList.toggle("on", b.dataset.l === l));
+};
+document.querySelectorAll("#langsw button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.l)));
+setLang((() => { try { return localStorage.getItem("da:lang") || "en"; } catch { return "en"; } })());
+
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 let DB = null;
 
@@ -118,7 +142,9 @@ async function unlock() {
     buildNav();
     route();
   } catch (e) {
-    err.textContent = "Wrong password — static on the line.";
+    err.textContent = document.documentElement.dataset.lang === "zh"
+      ? "密码错误——线路上只有杂音。"
+      : "Wrong password — static on the line.";
   }
 }
 document.getElementById("go").addEventListener("click", unlock);

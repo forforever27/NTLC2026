@@ -23,25 +23,47 @@
   .code{display:none;margin-top:1.4rem;border:1px dashed var(--green);border-radius:8px;padding:1rem;text-align:center}
   .code b{font-size:1.5rem;letter-spacing:.25em;color:var(--green)}
   .code p{color:var(--soft);font-size:.85rem;margin:.4rem 0 0}
+  #langsw{position:fixed;bottom:1rem;right:1rem;z-index:50;display:flex;gap:.15rem;
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.2rem;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  #langsw button{border:none;background:none;color:var(--soft);font-size:.74rem;font-weight:600;
+    padding:.25rem .65rem;border-radius:999px;cursor:pointer;font-family:inherit}
+  #langsw button.on{background:#3a2523;color:var(--red)}
+  span.zh{display:block}
+  span.zh.inline{display:inline}
+  html[data-lang="en"] .zh{display:none!important}
+  html[data-lang="zh"] .en{display:none!important}
 </style>
 </head>
 <body>
 <div class="box">
   <h1><svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:-3px;margin-right:.35rem" aria-hidden="true"><circle cx="4.5" cy="12" r="1.6" fill="var(--gold)"/><circle cx="10.5" cy="12" r="1.6" fill="var(--gold)"/><rect x="14.5" y="10.5" width="7.5" height="3" rx="1.5" fill="var(--gold)"/></svg>SIGNAL VERIFICATION POST</h1>
-  <div class="sub">Rooftop relay · Radio 1926 FM</div>
+  <div class="sub"><span class="en inline" style="display:inline">Rooftop relay · Radio 1926 FM</span> <span class="zh inline">天台中继站 · Radio 1926 FM</span></div>
 
-  <label for="w1">Received transmission № 1</label>
-  <div class="row"><input id="w1" autocomplete="off"><button data-i="0">Verify</button></div>
+  <label for="w1"><span class="en inline" style="display:inline">Received transmission № 1</span> <span class="zh inline">收到的电文 № 1</span></label>
+  <div class="row"><input id="w1" autocomplete="off"><button data-i="0"><span class="en">Verify</span><span class="zh inline">验证</span></button></div>
   <div class="st" id="s0"></div>
 
-  <label for="w2">Received transmission № 2</label>
-  <div class="row"><input id="w2" autocomplete="off"><button data-i="1">Verify</button></div>
+  <label for="w2"><span class="en inline" style="display:inline">Received transmission № 2</span> <span class="zh inline">收到的电文 № 2</span></label>
+  <div class="row"><input id="w2" autocomplete="off"><button data-i="1"><span class="en">Verify</span><span class="zh inline">验证</span></button></div>
   <div class="st" id="s1"></div>
 
-  <div class="code" id="code"><b>SIGNAL-6</b><p>Both transmissions verified. Report this code to the station staff on duty.</p></div>
+  <div class="code" id="code"><b>SIGNAL-6</b><p><span class="en">Both transmissions verified. Report this code to the station staff on duty.</span><span class="zh">两段电文均已验证。请把此代码报告给值班的电台工作人员。</span></p></div>
+</div>
+
+<div id="langsw" role="group" aria-label="Language">
+  <button data-l="en">EN</button><button data-l="zh">中文</button><button data-l="both">EN+中</button>
 </div>
 
 <script>
+const setLang = l => {
+  document.documentElement.dataset.lang = l;
+  try { localStorage.setItem("da:lang", l); } catch {}
+  document.querySelectorAll("#langsw button").forEach(b => b.classList.toggle("on", b.dataset.l === l));
+};
+document.querySelectorAll("#langsw button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.l)));
+setLang((() => { try { return localStorage.getItem("da:lang") || "en"; } catch { return "en"; } })());
+const t = (en, zh) => { const l = document.documentElement.dataset.lang; return l === "zh" ? zh : l === "both" ? en + " · " + zh : en; };
+
 // Expected words stored as salted SHA-256 hashes — not readable from source.
 const HASHES = [
   "3d8521fb87b6ff3315cfb3e52a1227bc79104e3237ecdba6e373c0cc6c36451c",
@@ -59,10 +81,10 @@ document.querySelectorAll("button").forEach(btn => btn.addEventListener("click",
   const icon = d => '<svg viewBox="0 0 24 24" width="13" height="13" style="vertical-align:-2px;margin-right:.25rem" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
   if (await sha("morse:" + val) === HASHES[i]) {
     ok[i] = true;
-    st.innerHTML = icon("M4 13l5 5L20 6") + "VERIFIED"; st.className = "st ok";
+    st.innerHTML = icon("M4 13l5 5L20 6") + t("VERIFIED", "已验证"); st.className = "st ok";
     if (ok[0] && ok[1]) document.getElementById("code").style.display = "block";
   } else {
-    st.innerHTML = icon("M6 6l12 12M18 6L6 18") + "Garbled transmission. Signal again."; st.className = "st no";
+    st.innerHTML = icon("M6 6l12 12M18 6L6 18") + t("Garbled transmission. Signal again.", "电文紊乱，请重新发信号。"); st.className = "st no";
   }
 }));
 </script>

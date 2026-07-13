@@ -22,6 +22,15 @@
     text-decoration:none;border-bottom:1px dotted var(--soft);opacity:.7}
   a.crew:hover{color:var(--gold);border-color:var(--gold)}
   .wrap{max-width:34rem}
+  #langsw{position:fixed;bottom:1rem;right:1rem;z-index:50;display:flex;gap:.15rem;
+    background:#26231d;border:1px solid var(--line);border-radius:999px;padding:.2rem;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  #langsw button{border:none;background:none;color:var(--soft);font-size:.74rem;font-weight:600;
+    padding:.25rem .65rem;border-radius:999px;cursor:pointer;font-family:inherit}
+  #langsw button.on{background:#3a2523;color:var(--accent)}
+  span.zh{display:block}
+  span.zh.inline{display:inline}
+  html[data-lang="en"] .zh{display:none!important}
+  html[data-lang="zh"] .en{display:none!important}
 </style>
 </head>
 <body>
@@ -29,7 +38,7 @@
     <div class="freq">· · · Broadcasting since 1926 · · ·</div>
     <h1>RADIO 1926 FM</h1>
     <div class="onair">ON AIR</div>
-    <p>We are currently experiencing technical difficulties.<br>Normal programming will resume shortly.</p>
+    <p><span class="en">We are currently experiencing technical difficulties.<br>Normal programming will resume shortly.</span><span class="zh">本台目前遇到技术故障。<br>正常节目将稍后恢复，敬请谅解。</span></p>
     <svg viewBox="0 0 160 100" width="180" style="margin:.4rem auto;display:block" role="img" aria-label="Vintage radio">
       <path d="M118 30 L146 6" stroke="var(--soft)" stroke-width="2.5" stroke-linecap="round"/>
       <circle cx="147" cy="5" r="3" fill="var(--gold)"/>
@@ -52,7 +61,19 @@
       <rect x="30" y="90" width="10" height="5" rx="2" fill="var(--line)"/>
       <rect x="120" y="90" width="10" height="5" rx="2" fill="var(--line)"/>
     </svg>
-    <a class="crew" href="hq/">station crew entrance</a>
+    <a class="crew" href="hq/"><span class="en inline" style="display:inline">station crew entrance</span><span class="zh inline">工作人员入口</span></a>
   </div>
+  <div id="langsw" role="group" aria-label="Language">
+    <button data-l="en">EN</button><button data-l="zh">中文</button><button data-l="both">EN+中</button>
+  </div>
+  <script>
+    const setLang = l => {
+      document.documentElement.dataset.lang = l;
+      try { localStorage.setItem("da:lang", l); } catch {}
+      document.querySelectorAll("#langsw button").forEach(b => b.classList.toggle("on", b.dataset.l === l));
+    };
+    document.querySelectorAll("#langsw button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.l)));
+    setLang((() => { try { return localStorage.getItem("da:lang") || "en"; } catch { return "en"; } })());
+  </script>
 </body>
 </html>

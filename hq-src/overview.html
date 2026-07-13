@@ -1,9 +1,9 @@
-<!-- title: Game Overview -->
-<div class="eyebrow">Plan · Start here</div>
-<h1>Dead Air — What this game is</h1>
-<p><b>In one sentence:</b> 8 teams of campers race through 7 themed rooms, win a mini-game in each room to earn a clue card, and use those clues to be the first to correctly accuse <b>WHO</b> killed the DJ, <b>HOW</b>, and <b>WHERE</b>.</p>
+<!-- title: Game Overview · 游戏总览 -->
+<div class="eyebrow"><span class="en">Plan · Start here</span><span class="zh">策划 · 从这里开始</span></div>
+<h1><span class="en">Dead Air — What this game is</span><span class="zh">Dead Air——这是个什么游戏</span></h1>
+<p><span class="en"><b>In one sentence:</b> 8 teams of campers race through 7 themed rooms, win a mini-game in each room to earn a clue card, and use those clues to be the first to correctly accuse <b>WHO</b> killed the DJ, <b>HOW</b>, and <b>WHERE</b>.</span><span class="zh"><b>一句话说明：</b>8 支侦探小队穿梭于 7 个主题房间，在每个房间赢下小游戏换取一张线索卡，再用这些线索抢先正确指控：是<b>谁</b>杀了 DJ、用什么<b>作案手法</b>、在哪个<b>案发地点</b>。</span></p>
 
-<h2>The whole game in one picture</h2>
+<h2><span class="en">The whole game in one picture</span><span class="zh">一张图看懂整个游戏</span></h2>
 <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;margin:.5rem 0" role="img" aria-label="Game loop diagram">
   <defs>
     <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -55,7 +55,7 @@
   <path class="fl" d="M480 125 L519 125"/>
 </svg>
 
-<h2>The map — 7 rooms + HQ at a glance</h2>
+<h2><span class="en">The map — 7 rooms + HQ at a glance</span><span class="zh">地图——7 个房间 + HQ 一览</span></h2>
 <style>
   .roommap{display:grid;grid-template-columns:repeat(auto-fit,minmax(10.5rem,1fr));gap:.6rem;margin:1rem 0}
   .roommap .rm{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:.6rem .7rem;font-size:.8rem}
@@ -66,47 +66,47 @@
   .roommap .game svg{width:15px;height:15px;vertical-align:-3px;margin-right:.3rem;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 </style>
 <div class="roommap">
-  <div class="rm"><b>1 · Live Studio</b><span class="who">"Static" Stella — rival DJ</span><br><span class="game"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6"/></svg>One Take — record a flawless 30-s bulletin</span></div>
-  <div class="rm"><b>2 · Control Room</b><span class="who">Tuner Tan — sound engineer</span><br><span class="game"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg>Find the Frequency — tune to 3 hidden signals</span></div>
-  <div class="rm"><b>3 · Record Archive</b><span class="who">The Intern</span><br><span class="game"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" opacity=".5"/></svg>Sort the Stacks — shelve records by a twisted rule</span></div>
-  <div class="rm"><b>4 · Newsroom</b><span class="who">Miss Echo — newsreader</span><br><span class="game"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/></svg>Stop the Presses — rebuild the shredded exposé</span></div>
-  <div class="rm"><b>5 · Green Room</b><span class="who">Silent witness (janitor)</span><br><span class="game"><svg viewBox="0 0 24 24"><path d="M2.5 12S6.5 6 12 6s9.5 6 9.5 6-4 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.8"/></svg>The Silent Witness — charades · SPLIT CLUE, must trade</span></div>
-  <div class="rm"><b>6 · Rooftop Antenna</b><span class="who">Jingle Joe — jingle writer</span><br><span class="game"><svg viewBox="0 0 24 24"><circle cx="4.5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="10" cy="12" r="1.4" fill="currentColor" stroke="none"/><rect x="14" y="10.7" width="7.5" height="2.6" rx="1.3" fill="currentColor" stroke="none"/></svg>Signal Relay — flashlight Morse across a gap</span></div>
-  <div class="rm"><b>7 · Manager's Office</b><span class="who">Mr. Reed — station manager</span><br><span class="game"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 14.5v2"/></svg>The Locked Drawer — 3 puzzles open the padlock</span></div>
-  <div class="rm hq"><b>HQ · Detective's Office</b><span class="who">2 crew, not a suspect</span><br><span class="game"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4.5"/></svg>Accusations (from 0:45) · hint sales · split-clue tokens · scoreboard</span></div>
+  <div class="rm"><b>1 · Live Studio<span class="zh inline">（直播室）</span></b><span class="who"><span class="en">"Static" Stella — rival DJ</span><span class="zh">"Static" Stella——对头 DJ</span></span><br><span class="game"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6"/></svg><span class="en">One Take — record a flawless 30-s bulletin</span><span class="zh">One Take——一次过录出 30 秒零失误新闻快报</span></span></div>
+  <div class="rm"><b>2 · Control Room<span class="zh inline">（控制室）</span></b><span class="who"><span class="en">Tuner Tan — sound engineer</span><span class="zh">Tuner Tan——音响工程师</span></span><br><span class="game"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg><span class="en">Find the Frequency — tune to 3 hidden signals</span><span class="zh">Find the Frequency——调出 3 个隐藏信号</span></span></div>
+  <div class="rm"><b>3 · Record Archive<span class="zh inline">（唱片档案室）</span></b><span class="who"><span class="en">The Intern</span><span class="zh">The Intern（实习生）</span></span><br><span class="game"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" opacity=".5"/></svg><span class="en">Sort the Stacks — shelve records by a twisted rule</span><span class="zh">Sort the Stacks——按刁钻规则把唱片上架</span></span></div>
+  <div class="rm"><b>4 · Newsroom<span class="zh inline">（新闻室）</span></b><span class="who"><span class="en">Miss Echo — newsreader</span><span class="zh">Miss Echo——新闻播报员</span></span><br><span class="game"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/></svg><span class="en">Stop the Presses — rebuild the shredded exposé</span><span class="zh">Stop the Presses——拼回被撕碎的爆料报道</span></span></div>
+  <div class="rm"><b>5 · Green Room<span class="zh inline">（休息室）</span></b><span class="who"><span class="en">Silent witness (janitor)</span><span class="zh">沉默的目击者（清洁工）</span></span><br><span class="game"><svg viewBox="0 0 24 24"><path d="M2.5 12S6.5 6 12 6s9.5 6 9.5 6-4 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.8"/></svg><span class="en">The Silent Witness — charades · SPLIT CLUE, must trade</span><span class="zh">The Silent Witness——比手画脚 · 拆分线索，必须交换</span></span></div>
+  <div class="rm"><b>6 · Rooftop Antenna<span class="zh inline">（天台天线）</span></b><span class="who"><span class="en">Jingle Joe — jingle writer</span><span class="zh">Jingle Joe——广告歌作曲人</span></span><br><span class="game"><svg viewBox="0 0 24 24"><circle cx="4.5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="10" cy="12" r="1.4" fill="currentColor" stroke="none"/><rect x="14" y="10.7" width="7.5" height="2.6" rx="1.3" fill="currentColor" stroke="none"/></svg><span class="en">Signal Relay — flashlight Morse across a gap</span><span class="zh">Signal Relay——隔空打手电筒摩斯密码</span></span></div>
+  <div class="rm"><b>7 · Manager's Office<span class="zh inline">（经理办公室）</span></b><span class="who"><span class="en">Mr. Reed — station manager</span><span class="zh">Mr. Reed——电台经理</span></span><br><span class="game"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 14.5v2"/></svg><span class="en">The Locked Drawer — 3 puzzles open the padlock</span><span class="zh">The Locked Drawer——解开 3 道谜题打开挂锁</span></span></div>
+  <div class="rm hq"><b>HQ · Detective's Office<span class="zh inline">（侦探办公室）</span></b><span class="who"><span class="en">2 crew, not a suspect</span><span class="zh">2 名工作人员，不是嫌疑人</span></span><br><span class="game"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4.5"/></svg><span class="en">Accusations (from 0:45) · hint sales · split-clue tokens · scoreboard</span><span class="zh">正式指控（0:45 起）· 出售提示 · 拆分线索信物 · 计分板</span></span></div>
 </div>
 
-<h2>The story the players see</h2>
-<p>It's midnight at <b>Radio 1926 FM</b>. The station's star DJ — Maxwell "Mad Max" Loh, famous for filling the airwaves with gossip, hype and noise — is found dead in the Live Studio, headphones on, the transmitter broadcasting pure static. Six station staff were in the building. Every one of them had a reason. The teams are detectives called in before the police arrive.</p>
+<h2><span class="en">The story the players see</span><span class="zh">营员看到的故事</span></h2>
+<p><span class="en">It's midnight at <b>Radio 1926 FM</b>. The station's star DJ — Maxwell "Mad Max" Loh, famous for filling the airwaves with gossip, hype and noise — is found dead in the Live Studio, headphones on, the transmitter broadcasting pure static. Six station staff were in the building. Every one of them had a reason. The teams are detectives called in before the police arrive.</span><span class="zh">午夜，<b>Radio 1926 FM</b>。电台王牌 DJ——Maxwell "Mad Max" Loh，以用八卦、炒作和噪音塞满大气电波而闻名——被发现死在 Live Studio 里：头戴耳机，发射机播着一片纯粹的杂音。案发当晚有六名电台员工在楼里，每一个都有动机。各侦探小队就是在警察抵达之前受邀介入的侦探。</span></p>
 
-<h2>How it plays, step by step</h2>
+<h2><span class="en">How it plays, step by step</span><span class="zh">玩法：一步一步来</span></h2>
 <div class="steps">
-  <div class="step"><span class="n">1</span><div><b>Opening (15 min).</b><p>Static blasts over the PA. Emcee narrates the discovery; helpers stage the crime scene. Each team receives a <b>Detective Notebook</b> — a Cluedo-style grid of all suspects, methods and locations, which they cross off as clues come in.</p></div></div>
-  <div class="step"><span class="n">2</span><div><b>Investigation (2 hours).</b><p>Teams roam freely between 7 rooms. Each room = one costumed committee member (a suspect or witness) + one mini-game. One team in a room at a time, ~8–10 minutes per attempt.</p></div></div>
-  <div class="step"><span class="n">3</span><div><b>Win the mini-game → get the clue card.</b><p>Each room pays out exactly one clue: it <i>eliminates</i> suspects, methods, or locations ("Stella was live on Channel 2 all night — innocent"). A team can only clear each room once.</p></div></div>
-  <div class="step"><span class="n">4</span><div><b>Trade to complete the split clue.</b><p>The Green Room clue comes in two halves held by different teams — they must find each other and trade. This is deliberate: it forces inter-team interaction.</p></div></div>
-  <div class="step"><span class="n">5</span><div><b>Accuse.</b><p>From the 45-minute mark, any team may go to the HQ desk and formally accuse (who + how + where). <b>Wrong:</b> 15-minute accusation lock-out, announced over the PA for drama. <b>Right:</b> they win. Game continues for 2nd/3rd. Reveal skit and debrief close the session.</p></div></div>
+  <div class="step"><span class="n">1</span><div><b><span class="en">Opening (15 min).</span><span class="zh">开场（15 分钟）。</span></b><p><span class="en">Static blasts over the PA. Emcee narrates the discovery; helpers stage the crime scene. Each team receives a <b>Detective Notebook</b> — a Cluedo-style grid of all suspects, methods and locations, which they cross off as clues come in.</span><span class="zh">PA 里炸出一阵刺耳杂音。主持人旁白发现尸体的经过；工作人员布置犯罪现场。每队领到一本<b>侦探笔记本</b>——一张 Cluedo 式的总表，列出所有嫌疑人、作案手法和案发地点，线索到手就逐项划掉。</span></p></div></div>
+  <div class="step"><span class="n">2</span><div><b><span class="en">Investigation (2 hours).</span><span class="zh">调查（2 小时）。</span></b><p><span class="en">Teams roam freely between 7 rooms. Each room = one costumed committee member (a suspect or witness) + one mini-game. One team in a room at a time, ~8–10 minutes per attempt.</span><span class="zh">各队在 7 个房间之间自由走动。每个房间 = 一位穿戏服的筹委（嫌疑人或目击者）+ 一个小游戏。一个房间一次只接待一队，每次挑战约 8–10 分钟。</span></p></div></div>
+  <div class="step"><span class="n">3</span><div><b><span class="en">Win the mini-game → get the clue card.</span><span class="zh">赢下小游戏 → 拿线索卡。</span></b><p><span class="en">Each room pays out exactly one clue: it <i>eliminates</i> suspects, methods, or locations ("Stella was live on Channel 2 all night — innocent"). A team can only clear each room once.</span><span class="zh">每个房间只发放一条线索：它会<i>排除</i>某些嫌疑人、作案手法或案发地点（"Stella 整晚都在 2 号频道直播——清白"）。每队每个房间只能通关一次。</span></p></div></div>
+  <div class="step"><span class="n">4</span><div><b><span class="en">Trade to complete the split clue.</span><span class="zh">交换才能凑齐拆分线索。</span></b><p><span class="en">The Green Room clue comes in two halves held by different teams — they must find each other and trade. This is deliberate: it forces inter-team interaction.</span><span class="zh">Green Room 的线索分成两半，落在不同队伍手里——他们必须找到对方进行交换。这是刻意设计的：逼各队互动。</span></p></div></div>
+  <div class="step"><span class="n">5</span><div><b><span class="en">Accuse.</span><span class="zh">指控。</span></b><p><span class="en">From the 45-minute mark, any team may go to the HQ desk and formally accuse (who + how + where). <b>Wrong:</b> 15-minute accusation lock-out, announced over the PA for drama. <b>Right:</b> they win. Game continues for 2nd/3rd. Reveal skit and debrief close the session.</span><span class="zh">从第 45 分钟起，任何队伍都可以到 HQ 台前正式指控（嫌疑人 + 作案手法 + 案发地点）。<b>猜错：</b>15分钟禁赛，并通过 PA 全场广播，戏剧效果拉满。<b>猜对：</b>获胜。游戏继续决出第二、三名。最后以真相揭晓短剧和主题总结收尾。</span></p></div></div>
 </div>
 
-<h2>Why it can't break</h2>
+<h2><span class="en">Why it can't break</span><span class="zh">为什么这游戏坏不了</span></h2>
 <div class="grid2">
-  <div class="card"><h3>No team can fluke it</h3><p>The full answer needs all 7 clues for certainty. Guessing early is possible but risky — the lock-out and public announcement make a wrong guess costly and funny.</p></div>
-  <div class="card"><h3>No team can stall</h3><p>The HQ desk sells a duplicate of any clue card for a 10-minute wait ("developing the film"). Slow teams always have a path forward.</p></div>
-  <div class="card"><h3>No traffic jams</h3><p>Teams start at staggered rooms (Team 1 → Room 1, Team 2 → Room 2 …). Room masters cap occupancy at one team and keep attempts under ~10 min.</p></div>
-  <div class="card"><h3>Everyone plays</h3><p>Mini-games require the whole team (relay, recording where all speak, charades). No game is solvable by one smart kid while seven watch.</p></div>
+  <div class="card"><h3><span class="en">No team can fluke it</span><span class="zh">没人能瞎蒙过关</span></h3><p><span class="en">The full answer needs all 7 clues for certainty. Guessing early is possible but risky — the lock-out and public announcement make a wrong guess costly and funny.</span><span class="zh">要百分百确定完整答案，必须集齐全部 7 条线索。提前乱猜不是不行，但风险很高——禁赛加全场广播，让猜错这件事又亏又好笑。</span></p></div>
+  <div class="card"><h3><span class="en">No team can stall</span><span class="zh">没人会卡死</span></h3><p><span class="en">The HQ desk sells a duplicate of any clue card for a 10-minute wait ("developing the film"). Slow teams always have a path forward.</span><span class="zh">HQ 台可以补发任何一张线索卡的副本，代价是等 10 分钟（"照片还在冲洗中"）。落后的队伍永远有路可走。</span></p></div>
+  <div class="card"><h3><span class="en">No traffic jams</span><span class="zh">不会塞车</span></h3><p><span class="en">Teams start at staggered rooms (Team 1 → Room 1, Team 2 → Room 2 …). Room masters cap occupancy at one team and keep attempts under ~10 min.</span><span class="zh">各队从错开的房间出发（第 1 队 → 1 号房，第 2 队 → 2 号房……）。关主控制一个房间一次只进一队，每次挑战不超过约 10 分钟。</span></p></div>
+  <div class="card"><h3><span class="en">Everyone plays</span><span class="zh">人人都要上场</span></h3><p><span class="en">Mini-games require the whole team (relay, recording where all speak, charades). No game is solvable by one smart kid while seven watch.</span><span class="zh">小游戏都需要全队参与（接力、全员开口的录音、比手画脚）。没有哪个游戏能让一个聪明孩子单干、其余七个人围观。</span></p></div>
 </div>
 
-<h2>The camp theme tie-in</h2>
-<div class="callout"><b>"Unplug from the noise, sync with the Spirit."</b> Mad Max filled the airwaves with noise; every suspect's motive is real, every red herring plausible — that's the noise. Teams win by tuning it out until only the true signal remains. The debrief makes this connection in two minutes, one verse, no sermon. The whole game <i>is</i> the theme.</div>
+<h2><span class="en">The camp theme tie-in</span><span class="zh">与营会主题的连接</span></h2>
+<div class="callout"><span class="en"><b>"Unplug from the noise, sync with the Spirit."</b> Mad Max filled the airwaves with noise; every suspect's motive is real, every red herring plausible — that's the noise. Teams win by tuning it out until only the true signal remains. The debrief makes this connection in two minutes, one verse, no sermon. The whole game <i>is</i> the theme.</span><span class="zh"><b>"关掉噪音，对准圣灵的频率。"</b>Mad Max 用噪音塞满了大气电波；每个嫌疑人的动机都是真的，每个烟雾弹（假线索）都说得通——这些就是噪音。获胜之道，是把噪音一一滤掉，直到只剩下真正的信号。主题总结只需两分钟、一节经文，不用讲道。整个游戏<i>本身</i>就是主题。</span></div>
 
-<h2>Key numbers</h2>
+<h2><span class="en">Key numbers</span><span class="zh">关键数字</span></h2>
 <div class="tablewrap"><table>
-  <tr><th>Thing</th><th>Value</th></tr>
-  <tr><td>Players</td><td class="num">~60, split into 8 teams of 7–8</td></tr>
-  <tr><td>Rooms</td><td class="num">7 stations + HQ desk</td></tr>
-  <tr><td>Crew</td><td class="num">11 — 7 room masters, 2 HQ, 1 emcee, 1 floater</td></tr>
-  <tr><td>Duration</td><td class="num">3 h total — 15 min open · 2 h play · 20 min final window · 25 min reveal</td></tr>
-  <tr><td>Budget</td><td>Paper, cardboard, borrowed phones/laptops, one combination padlock</td></tr>
+  <tr><th><span class="en">Thing</span><span class="zh">项目</span></th><th><span class="en">Value</span><span class="zh">数值</span></th></tr>
+  <tr><td><span class="en">Players</span><span class="zh">营员</span></td><td class="num"><span class="en">~60, split into 8 teams of 7–8</span><span class="zh">约 60 人，分成 8 支侦探小队，每队 7–8 人</span></td></tr>
+  <tr><td><span class="en">Rooms</span><span class="zh">房间</span></td><td class="num"><span class="en">7 stations + HQ desk</span><span class="zh">7 个关卡 + HQ 台</span></td></tr>
+  <tr><td><span class="en">Crew</span><span class="zh">筹委/工作人员</span></td><td class="num"><span class="en">11 — 7 room masters, 2 HQ, 1 emcee, 1 floater</span><span class="zh">11 人——7 位关主、2 位 HQ、1 位主持、1 位机动</span></td></tr>
+  <tr><td><span class="en">Duration</span><span class="zh">时长</span></td><td class="num"><span class="en">3 h total — 15 min open · 2 h play · 20 min final window · 25 min reveal</span><span class="zh">共 3 小时——开场 15 分钟 · 游戏 2 小时 · 最终提交窗口 20 分钟 · 真相揭晓 25 分钟</span></td></tr>
+  <tr><td><span class="en">Budget</span><span class="zh">预算</span></td><td><span class="en">Paper, cardboard, borrowed phones/laptops, one combination padlock</span><span class="zh">纸张、纸皮、借来的手机/电脑、一个密码挂锁</span></td></tr>
 </table></div>
 
-<p>Next: read the <a href="#case-file">Case File</a> for the full truth, <a href="#night-of">The Night Of</a> for the minute-by-minute timeline you improvise from, then your own station page for exactly what you prepare, say, and never reveal. The <a href="#flavor">Flavor Pack</a> and <a href="#print-pack">Print Pack</a> cover atmosphere and materials.</p>
+<p><span class="en">Next: read the <a href="#case-file">Case File</a> for the full truth, <a href="#night-of">The Night Of</a> for the minute-by-minute timeline you improvise from, then your own station page for exactly what you prepare, say, and never reveal. The <a href="#flavor">Flavor Pack</a> and <a href="#print-pack">Print Pack</a> cover atmosphere and materials.</span><span class="zh">接下来：先读<a href="#case-file">案件档案</a>了解全部真相，再读<a href="#night-of">案发当晚</a>掌握你即兴发挥所依据的分钟级时间线，然后读你自己的关卡页，弄清楚该准备什么、该说什么、绝不能透露什么。<a href="#flavor">氛围包</a>和<a href="#print-pack">印刷包</a>则涵盖气氛营造和物料。</span></p>

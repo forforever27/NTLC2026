@@ -35,38 +35,51 @@
   .badge.final{background:var(--gold);color:#14120e}
   .hidden{display:none}
   .locknote{color:var(--red);font-size:.85rem;min-height:1.2em;margin-top:.4rem}
+  #langsw{position:fixed;bottom:1rem;right:1rem;z-index:50;display:flex;gap:.15rem;
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.2rem;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  #langsw button{border:none;background:none;color:var(--soft);font-size:.74rem;font-weight:600;
+    padding:.25rem .65rem;border-radius:999px;cursor:pointer;width:auto;margin:0;font-family:inherit;letter-spacing:0}
+  #langsw button.on{background:#3a2523;color:var(--red)}
+  span.zh{display:block}
+  span.zh.inline{display:inline}
+  html[data-lang="en"] .zh{display:none!important}
+  html[data-lang="zh"] .en{display:none!important}
 </style>
 </head>
 <body>
 <div class="term">
   <button class="gear" id="gear" title="Staff settings" aria-label="Staff settings"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg></button>
   <h1><svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:-3px;margin-right:.35rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4.5"/></svg>DETECTIVE BUREAU</h1>
-  <div class="sub">Formal Accusation Terminal · Case № 1926 <span class="badge final hidden" id="fw">FINAL WINDOW</span></div>
+  <div class="sub"><span class="en inline" style="display:inline">Formal Accusation Terminal · Case № 1926</span> <span class="zh inline">正式指控终端 · 案件编号 1926</span> <span class="badge final hidden" id="fw"><span class="en inline" style="display:inline">FINAL WINDOW</span><span class="zh inline"> 最终窗口</span></span></div>
 
   <!-- GM SETUP -->
   <div id="setup" class="hidden">
-    <p style="color:var(--soft);font-size:.9rem">Staff setup — set the case answer. It is stored only as a hash on this device.</p>
-    <label>Culprit</label><select id="gs"></select>
-    <label>Method</label><select id="gm"></select>
-    <label>Location</label><select id="gr"></select>
-    <label>Staff PIN (to reopen this screen)</label><input id="gpin" type="password" autocomplete="off">
-    <button id="gsave" style="background:var(--gold);color:#14120e">Save &amp; arm terminal</button>
-    <button class="quiet" id="gfinal">Toggle Final Window mode</button>
-    <button class="quiet" id="greset">Reset everything (new game)</button>
+    <p style="color:var(--soft);font-size:.9rem"><span class="en">Staff setup — set the case answer. It is stored only as a hash on this device.</span><span class="zh">工作人员设置——设定本案答案。答案只以哈希形式存在本机上。</span></p>
+    <label><span class="en">Culprit</span><span class="zh inline">凶手</span></label><select id="gs"></select>
+    <label><span class="en">Method</span><span class="zh inline">作案手法</span></label><select id="gm"></select>
+    <label><span class="en">Location</span><span class="zh inline">案发地点</span></label><select id="gr"></select>
+    <label><span class="en">Staff PIN (to reopen this screen)</span><span class="zh inline">工作人员 PIN（用于重新打开此页面）</span></label><input id="gpin" type="password" autocomplete="off">
+    <button id="gsave" style="background:var(--gold);color:#14120e"><span class="en">Save &amp; arm terminal</span><span class="zh inline">保存并启动终端</span></button>
+    <button class="quiet" id="gfinal"><span class="en">Toggle Final Window mode</span><span class="zh inline">切换最终窗口模式</span></button>
+    <button class="quiet" id="greset"><span class="en">Reset everything (new game)</span><span class="zh inline">全部重置（新一局）</span></button>
   </div>
 
   <!-- TEAM FLOW -->
   <div id="play">
-    <label for="team">Detective team</label>
+    <label for="team"><span class="en">Detective team</span><span class="zh inline">侦探小队</span></label>
     <select id="team"></select>
     <div class="locknote" id="lock"></div>
-    <label for="s">The culprit is…</label><select id="s"></select>
-    <label for="m">The method was…</label><select id="m"></select>
-    <label for="r">And it happened in…</label><select id="r"></select>
-    <button id="accuse">SUBMIT FORMAL ACCUSATION</button>
+    <label for="s"><span class="en">The culprit is…</span><span class="zh inline">凶手是……</span></label><select id="s"></select>
+    <label for="m"><span class="en">The method was…</span><span class="zh inline">作案手法是……</span></label><select id="m"></select>
+    <label for="r"><span class="en">And it happened in…</span><span class="zh inline">案发地点是……</span></label><select id="r"></select>
+    <button id="accuse"><span class="en">SUBMIT FORMAL ACCUSATION</span><span class="zh inline">提交正式指控</span></button>
     <div class="result" id="res"></div>
-    <div class="log"><h2>Bureau record</h2><table id="logt"></table></div>
+    <div class="log"><h2><span class="en">Bureau record</span><span class="zh inline">侦探局记录</span></h2><table id="logt"></table></div>
   </div>
+</div>
+
+<div id="langsw" role="group" aria-label="Language">
+  <button data-l="en">EN</button><button data-l="zh">中文</button><button data-l="both">EN+中</button>
 </div>
 
 <script>
@@ -76,11 +89,21 @@ const ROOMS    = ["Live Studio", "Control Room", "Record Archive", "Newsroom", "
 const TEAMS = Array.from({length: 8}, (_, i) => "Team " + (i + 1));
 const LOCKOUT_MS = 15 * 60 * 1000;
 
+const setLang = l => {
+  document.documentElement.dataset.lang = l;
+  try { localStorage.setItem("da:lang", l); } catch {}
+  document.querySelectorAll("#langsw button").forEach(b => b.classList.toggle("on", b.dataset.l === l));
+};
+document.querySelectorAll("#langsw button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.l)));
+setLang((() => { try { return localStorage.getItem("da:lang") || "en"; } catch { return "en"; } })());
+const t = (en, zh) => { const l = document.documentElement.dataset.lang; return l === "zh" ? zh : l === "both" ? en + " / " + zh : en; };
+const bi = (en, zh) => '<span class="en">' + en + '</span><span class="zh">' + zh + '</span>';
+
 const $ = id => document.getElementById(id);
 const fill = (el, arr, ph) => { el.innerHTML = '<option value="">— ' + ph + ' —</option>' + arr.map(x => `<option>${x}</option>`).join(""); };
-fill($("s"), SUSPECTS, "select suspect"); fill($("m"), METHODS, "select method"); fill($("r"), ROOMS, "select room");
-fill($("gs"), SUSPECTS, "culprit"); fill($("gm"), METHODS, "method"); fill($("gr"), ROOMS, "room");
-fill($("team"), TEAMS, "select your team");
+fill($("s"), SUSPECTS, "select suspect · 选择嫌疑人"); fill($("m"), METHODS, "select method · 选择手法"); fill($("r"), ROOMS, "select room · 选择地点");
+fill($("gs"), SUSPECTS, "culprit · 凶手"); fill($("gm"), METHODS, "method · 手法"); fill($("gr"), ROOMS, "room · 地点");
+fill($("team"), TEAMS, "select your team · 选择你的小队");
 
 async function sha(s) {
   const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
@@ -93,8 +116,8 @@ const store = { get: k => JSON.parse(localStorage.getItem("da:" + k) || "null"),
 async function openSetup() {
   const pinH = store.get("pin");
   if (pinH) {
-    const pin = prompt("Staff PIN:");
-    if (pin === null || await sha("pin:" + pin) !== pinH) { alert("Access denied."); return; }
+    const pin = prompt(t("Staff PIN:", "工作人员 PIN："));
+    if (pin === null || await sha("pin:" + pin) !== pinH) { alert(t("Access denied.", "拒绝访问。")); return; }
   }
   $("setup").classList.remove("hidden"); $("play").classList.add("hidden");
 }
@@ -102,22 +125,24 @@ $("gear").addEventListener("click", openSetup);
 
 $("gsave").addEventListener("click", async () => {
   const s = $("gs").value, m = $("gm").value, r = $("gr").value, pin = $("gpin").value;
-  if (!s || !m || !r || !pin) { alert("Set all three answers and a PIN."); return; }
+  if (!s || !m || !r || !pin) { alert(t("Set all three answers and a PIN.", "请设定全部三项答案以及一个 PIN。")); return; }
   store.set("hs", await sha("acc:s:" + s));
   store.set("hm", await sha("acc:m:" + m));
   store.set("hr", await sha("acc:r:" + r));
   store.set("pin", await sha("pin:" + pin));
   ["gs","gm","gr","gpin"].forEach(id => $(id).value = "");
-  alert("Terminal armed.");
+  alert(t("Terminal armed.", "终端已启动。"));
   $("setup").classList.add("hidden"); $("play").classList.remove("hidden");
 });
 $("gfinal").addEventListener("click", () => {
   store.set("final", !store.get("final"));
   render();
-  alert("Final Window is now " + (store.get("final") ? "ON (no lockouts, one submission per team)" : "OFF"));
+  alert(store.get("final")
+    ? t("Final Window is now ON (no lockouts, one submission per team).", "最终窗口已开启（无禁赛，每队只可提交一次）。")
+    : t("Final Window is now OFF.", "最终窗口已关闭。"));
 });
 $("greset").addEventListener("click", () => {
-  if (confirm("Erase answer, PIN, lockouts and the whole log?")) {
+  if (confirm(t("Erase answer, PIN, lockouts and the whole log?", "确定清除答案、PIN、禁赛记录和全部日志？"))) {
     Object.keys(localStorage).filter(k => k.startsWith("da:")).forEach(k => localStorage.removeItem(k));
     location.reload();
   }
@@ -133,7 +158,9 @@ function render() {
   const locks = store.get("locks") || {};
   const until = locks[team] || 0;
   if (!store.get("final") && team && until > Date.now()) {
-    $("lock").innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-1px;margin-right:.25rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' + team + " is locked out for another " + Math.ceil((until - Date.now()) / 60000) + " min.";
+    const mins = Math.ceil((until - Date.now()) / 60000);
+    $("lock").innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" style="vertical-align:-1px;margin-right:.25rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>'
+      + t(team + " is locked out for another " + mins + " min.", team + " 仍在禁赛中，还剩 " + mins + " 分钟。");
   } else $("lock").textContent = "";
 }
 $("team").addEventListener("change", render);
@@ -156,17 +183,18 @@ function sting(good) {
 }
 
 $("accuse").addEventListener("click", async () => {
-  if (!store.get("hs")) { alert("Terminal not armed. Staff must complete setup (gear button, top right)."); return; }
+  if (!store.get("hs")) { alert(t("Terminal not armed. Staff must complete setup (gear button, top right).", "终端未启动。请工作人员先完成设置（右上角齿轮按钮）。")); return; }
   const team = $("team").value, s = $("s").value, m = $("m").value, r = $("r").value;
   const res = $("res");
-  if (!team || !s || !m || !r) { alert("Select your team and all three parts of the accusation."); return; }
+  if (!team || !s || !m || !r) { alert(t("Select your team and all three parts of the accusation.", "请选择你的小队，以及指控的全部三项内容。")); return; }
 
   const final = store.get("final");
   const locks = store.get("locks") || {};
   if (!final && (locks[team] || 0) > Date.now()) { render(); return; }
   const finals = store.get("finals") || {};
-  if (final && finals[team]) { alert(team + " has already submitted its final accusation."); return; }
-  if (!confirm(team + ", this is a FORMAL accusation:\n\n" + s + ", with the " + m + ", in the " + r + ".\n\nProceed?")) return;
+  if (final && finals[team]) { alert(t(team + " has already submitted its final accusation.", team + " 已经提交过最终指控。")); return; }
+  if (!confirm(t(team + ", this is a FORMAL accusation:\n\n" + s + ", with the " + m + ", in the " + r + ".\n\nProceed?",
+                 team + "，这是一次正式指控：\n\n凶手 " + s + "，手法 " + m + "，地点 " + r + "。\n\n确定提交？"))) return;
 
   const hits = (store.get("hs") === await sha("acc:s:" + s) ? 1 : 0)
              + (store.get("hm") === await sha("acc:m:" + m) ? 1 : 0)
@@ -181,19 +209,23 @@ $("accuse").addEventListener("click", async () => {
     log.push({ t, team, v: correct ? "CORRECT" : "FINAL FILED" });
     store.set("log", log);
     res.className = "result right";
-    res.innerHTML = "FINAL ACCUSATION FILED.<small>Sealed until the reveal. (Staff: rankings via daRanking() in the console)</small>";
+    res.innerHTML = bi("FINAL ACCUSATION FILED.<small>Sealed until the reveal. (Staff: rankings via daRanking() in the console)</small>",
+                       "最终指控已提交。<small>封存至真相揭晓。（工作人员：在控制台用 daRanking() 查看排名）</small>");
     if (correct) sting(true);
   } else if (correct) {
     log.push({ t, team, v: "CORRECT" }); store.set("log", log);
     sting(true);
     res.className = "result right";
-    res.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" style="display:block;margin:0 auto .3rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5L15.5 9"/></svg>CASE CLOSED. ' + team + " has solved the murder of Mad Max.<small>Summon the emcee. The city thanks you, detectives.</small>";
+    res.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" style="display:block;margin:0 auto .3rem" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5L15.5 9"/></svg>'
+      + bi("CASE CLOSED. " + team + " has solved the murder of Mad Max.<small>Summon the emcee. The city thanks you, detectives.</small>",
+           "结案。" + team + " 破解了 Mad Max 谋杀案。<small>快去请司仪。这座城市感谢你们，侦探。</small>");
   } else {
     locks[team] = Date.now() + LOCKOUT_MS; store.set("locks", locks);
     log.push({ t, team, v: "WRONG" }); store.set("log", log);
     sting(false);
     res.className = "result wrong";
-    res.innerHTML = "WRONG.<small>The killer is still out there — and now they know you're guessing. " + team + " may not accuse again for 15 minutes.</small>";
+    res.innerHTML = bi("WRONG.<small>The killer is still out there — and now they know you're guessing. " + team + " may not accuse again for 15 minutes.</small>",
+                       "错误。<small>凶手仍逍遥法外——而且现在知道你们在乱猜了。" + team + " 15 分钟内不得再次指控。</small>");
   }
   ["s","m","r"].forEach(id => $(id).value = "");
   render();

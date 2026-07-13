@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Detective Bureau — Accusation Terminal</title>
+<style>
+  :root{--bg:#14120e;--panel:#26231d;--ink:#ece7db;--soft:#a89f8d;--gold:#c9a55a;--green:#7fb98d;--red:#d4756f;--line:#3a362d}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+  .term{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:36rem;width:100%;padding:2rem;position:relative}
+  h1{font-family:Charter,Georgia,serif;font-size:1.35rem;margin:0}
+  .sub{color:var(--soft);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.4rem}
+  label{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin:1rem 0 .3rem}
+  select,input{width:100%;padding:.65rem .9rem;font-size:1rem;background:#0c0b08;border:1px solid var(--line);
+    border-radius:6px;color:var(--ink)}
+  button{padding:.7rem 1.4rem;border:none;border-radius:6px;background:var(--red);color:#fff;font-weight:700;
+    cursor:pointer;font-size:1rem;width:100%;margin-top:1.2rem;letter-spacing:.08em}
+  button.quiet{background:transparent;border:1px solid var(--line);color:var(--soft);font-weight:400;width:auto;
+    padding:.4rem .9rem;font-size:.8rem;margin-top:.8rem}
+  .result{margin-top:1.2rem;border-radius:8px;padding:1rem;text-align:center;display:none;font-weight:600}
+  .result.wrong{display:block;background:#3a2523;color:var(--red)}
+  .result.right{display:block;background:#1f3326;color:var(--green)}
+  .result small{display:block;font-weight:400;color:var(--soft);margin-top:.3rem}
+  .gear{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--line);cursor:pointer;
+    font-size:1.1rem;width:auto;margin:0;padding:.3rem}
+  .log{margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1rem}
+  .log h2{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin:0 0 .5rem}
+  .log table{width:100%;border-collapse:collapse;font-size:.82rem}
+  .log td{padding:.3rem .4rem;border-bottom:1px solid var(--line);color:var(--soft)}
+  .log td.ok{color:var(--green)} .log td.bad{color:var(--red)}
+  .badge{display:inline-block;border-radius:999px;padding:.05rem .6rem;font-size:.72rem;font-weight:700}
+  .badge.final{background:var(--gold);color:#14120e}
+  .hidden{display:none}
+  .locknote{color:var(--red);font-size:.85rem;min-height:1.2em;margin-top:.4rem}
+</style>
+</head>
+<body>
+<div class="term">
+  <button class="gear" id="gear" title="Staff settings" aria-label="Staff settings">⚙</button>
+  <h1>DETECTIVE BUREAU</h1>
+  <div class="sub">Formal Accusation Terminal · Case № 1926 <span class="badge final hidden" id="fw">FINAL WINDOW</span></div>
+
+  <!-- GM SETUP -->
+  <div id="setup" class="hidden">
+    <p style="color:var(--soft);font-size:.9rem">Staff setup — set the case answer. It is stored only as a hash on this device.</p>
+    <label>Culprit</label><select id="gs"></select>
+    <label>Method</label><select id="gm"></select>
+    <label>Location</label><select id="gr"></select>
+    <label>Staff PIN (to reopen this screen)</label><input id="gpin" type="password" autocomplete="off">
+    <button id="gsave" style="background:var(--gold);color:#14120e">Save &amp; arm terminal</button>
+    <button class="quiet" id="gfinal">Toggle Final Window mode</button>
+    <button class="quiet" id="greset">Reset everything (new game)</button>
+  </div>
+
+  <!-- TEAM FLOW -->
+  <div id="play">
+    <label for="team">Detective team</label>
+    <select id="team"></select>
+    <div class="locknote" id="lock"></div>
+    <label for="s">The culprit is…</label><select id="s"></select>
+    <label for="m">The method was…</label><select id="m"></select>
+    <label for="r">And it happened in…</label><select id="r"></select>
+    <button id="accuse">SUBMIT FORMAL ACCUSATION</button>
+    <div class="result" id="res"></div>
+    <div class="log"><h2>Bureau record</h2><table id="logt"></table></div>
+  </div>
+</div>
+
+<script>
+const SUSPECTS = ['"Static" Stella', "Mr. Reed", "Tuner Tan", "Miss Echo", "Jingle Joe", "The Intern"];
+const METHODS  = ["Rigged microphone", "Poisoned coffee", "Golden Mic trophy", "Headphone cable", "Vinyl shard", "Reel-to-reel machine"];
+const ROOMS    = ["Live Studio", "Control Room", "Record Archive", "Newsroom", "Green Room", "Rooftop Antenna", "Manager's Office"];
+const TEAMS = Array.from({length: 8}, (_, i) => "Team " + (i + 1));
+const LOCKOUT_MS = 15 * 60 * 1000;
+
+const $ = id => document.getElementById(id);
+const fill = (el, arr, ph) => { el.innerHTML = '<option value="">— ' + ph + ' —</option>' + arr.map(x => `<option>${x}</option>`).join(""); };
+fill($("s"), SUSPECTS, "select suspect"); fill($("m"), METHODS, "select method"); fill($("r"), ROOMS, "select room");
+fill($("gs"), SUSPECTS, "culprit"); fill($("gm"), METHODS, "method"); fill($("gr"), ROOMS, "room");
+fill($("team"), TEAMS, "select your team");
+
+async function sha(s) {
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+const store = { get: k => JSON.parse(localStorage.getItem("da:" + k) || "null"),
+                set: (k, v) => localStorage.setItem("da:" + k, JSON.stringify(v)) };
+
+// ---- GM setup ----
+async function openSetup() {
+  const pinH = store.get("pin");
+  if (pinH) {
+    const pin = prompt("Staff PIN:");
+    if (pin === null || await sha("pin:" + pin) !== pinH) { alert("Access denied."); return; }
+  }
+  $("setup").classList.remove("hidden"); $("play").classList.add("hidden");
+}
+$("gear").addEventListener("click", openSetup);
+
+$("gsave").addEventListener("click", async () => {
+  const s = $("gs").value, m = $("gm").value, r = $("gr").value, pin = $("gpin").value;
+  if (!s || !m || !r || !pin) { alert("Set all three answers and a PIN."); return; }
+  store.set("hs", await sha("acc:s:" + s));
+  store.set("hm", await sha("acc:m:" + m));
+  store.set("hr", await sha("acc:r:" + r));
+  store.set("pin", await sha("pin:" + pin));
+  ["gs","gm","gr","gpin"].forEach(id => $(id).value = "");
+  alert("Terminal armed.");
+  $("setup").classList.add("hidden"); $("play").classList.remove("hidden");
+});
+$("gfinal").addEventListener("click", () => {
+  store.set("final", !store.get("final"));
+  render();
+  alert("Final Window is now " + (store.get("final") ? "ON (no lockouts, one submission per team)" : "OFF"));
+});
+$("greset").addEventListener("click", () => {
+  if (confirm("Erase answer, PIN, lockouts and the whole log?")) {
+    Object.keys(localStorage).filter(k => k.startsWith("da:")).forEach(k => localStorage.removeItem(k));
+    location.reload();
+  }
+});
+
+// ---- team flow ----
+function render() {
+  $("fw").classList.toggle("hidden", !store.get("final"));
+  const log = store.get("log") || [];
+  $("logt").innerHTML = log.slice().reverse().map(e =>
+    `<tr><td>${e.t}</td><td>${e.team}</td><td class="${e.v === "CORRECT" ? "ok" : "bad"}">${e.v}</td></tr>`).join("");
+  const team = $("team").value;
+  const locks = store.get("locks") || {};
+  const until = locks[team] || 0;
+  if (!store.get("final") && team && until > Date.now()) {
+    $("lock").textContent = "⛔ " + team + " is locked out for another " + Math.ceil((until - Date.now()) / 60000) + " min.";
+  } else $("lock").textContent = "";
+}
+$("team").addEventListener("change", render);
+setInterval(render, 15000);
+
+function sting(good) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = good ? [523, 659, 784, 1047] : [220, 208, 196, 110];
+    notes.forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = good ? "triangle" : "sawtooth"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.18);
+      g.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + i * 0.18 + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.18 + (good ? 0.5 : 0.4));
+      o.connect(g).connect(ctx.destination);
+      o.start(ctx.currentTime + i * 0.18); o.stop(ctx.currentTime + i * 0.18 + 0.6);
+    });
+  } catch {}
+}
+
+$("accuse").addEventListener("click", async () => {
+  if (!store.get("hs")) { alert("Terminal not armed. Staff must complete setup (⚙)."); return; }
+  const team = $("team").value, s = $("s").value, m = $("m").value, r = $("r").value;
+  const res = $("res");
+  if (!team || !s || !m || !r) { alert("Select your team and all three parts of the accusation."); return; }
+
+  const final = store.get("final");
+  const locks = store.get("locks") || {};
+  if (!final && (locks[team] || 0) > Date.now()) { render(); return; }
+  const finals = store.get("finals") || {};
+  if (final && finals[team]) { alert(team + " has already submitted its final accusation."); return; }
+  if (!confirm(team + ", this is a FORMAL accusation:\n\n" + s + ", with the " + m + ", in the " + r + ".\n\nProceed?")) return;
+
+  const hits = (store.get("hs") === await sha("acc:s:" + s) ? 1 : 0)
+             + (store.get("hm") === await sha("acc:m:" + m) ? 1 : 0)
+             + (store.get("hr") === await sha("acc:r:" + r) ? 1 : 0);
+  const correct = hits === 3;
+  const now = new Date(), t = now.toTimeString().slice(0, 5);
+  const log = store.get("log") || [];
+
+  if (final) {
+    finals[team] = { hits, at: Date.now() };
+    store.set("finals", finals);
+    log.push({ t, team, v: correct ? "CORRECT" : "FINAL FILED" });
+    store.set("log", log);
+    res.className = "result right";
+    res.innerHTML = "FINAL ACCUSATION FILED.<small>Sealed until the reveal. (Staff: rankings under ⚙ → console)</small>";
+    if (correct) sting(true);
+  } else if (correct) {
+    log.push({ t, team, v: "CORRECT" }); store.set("log", log);
+    sting(true);
+    res.className = "result right";
+    res.innerHTML = "🎉 CASE CLOSED. " + team + " has solved the murder of Mad Max.<small>Summon the emcee. The city thanks you, detectives.</small>";
+  } else {
+    locks[team] = Date.now() + LOCKOUT_MS; store.set("locks", locks);
+    log.push({ t, team, v: "WRONG" }); store.set("log", log);
+    sting(false);
+    res.className = "result wrong";
+    res.innerHTML = "WRONG.<small>The killer is still out there — and now they know you're guessing. " + team + " may not accuse again for 15 minutes.</small>";
+  }
+  ["s","m","r"].forEach(id => $(id).value = "");
+  render();
+});
+
+// Staff: final-window ranking in console (hits then time)
+window.daRanking = () => {
+  const f = store.get("finals") || {};
+  return Object.entries(f).map(([team, v]) => ({ team, hitsOutOf3: v.hits, at: new Date(v.at).toTimeString().slice(0,8) }))
+    .sort((a, b) => b.hitsOutOf3 - a.hitsOutOf3 || a.at.localeCompare(b.at));
+};
+render();
+</script>
+</body>
+</html>

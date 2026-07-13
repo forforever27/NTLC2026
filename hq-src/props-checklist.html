@@ -1,0 +1,66 @@
+<!-- title: Props & Shopping -->
+<div class="eyebrow">Plan · Preparation</div>
+<h1>Props, Printing &amp; Shopping</h1>
+<p>Everything is cheap, handmade, or borrowed. Per-station details live on each station page — this is the master list for whoever does the shopping/printing run.</p>
+
+<h2>To buy</h2>
+<div class="tablewrap"><table>
+  <tr><th>Item</th><th class="num">Qty</th><th>For</th></tr>
+  <tr><td>3-digit combination padlock (+ any lockable box/pencil case)</td><td class="num">1</td><td>Manager's Office</td></tr>
+  <tr><td>Caution tape + masking tape</td><td class="num">1 roll each</td><td>Crime scene (reuse last year's if kept)</td></tr>
+  <tr><td>Markers, envelopes, sticky notes, string</td><td class="num">assorted</td><td>Various</td></tr>
+  <tr><td>Small prizes (top 3 teams)</td><td class="num">3 sets</td><td>Reveal</td></tr>
+</table></div>
+
+<h2>To print (master print run)</h2>
+<div class="tablewrap"><table>
+  <tr><th>Item</th><th class="num">Qty</th><th>Notes</th></tr>
+  <tr><td>Detective notebooks (elimination grid + notes page)</td><td class="num">8</td><td>One per team — layout to be produced from this repo</td></tr>
+  <tr><td>Clue cards (7 designs)</td><td class="num">7 × 8</td><td>Text is verbatim in the Case File clue matrix</td></tr>
+  <tr><td>Split-clue Half B cards + matching paper tokens</td><td class="num">8 + 16</td><td>Green Room / HQ desk</td></tr>
+  <tr><td>Studio bulletin scripts (tongue-twisters)</td><td class="num">3</td><td>Live Studio</td></tr>
+  <tr><td>Exposé article ×2 copies, pre-cut into strips + 6 fake strips</td><td class="num">2 sets</td><td>Newsroom (one spare set)</td></tr>
+  <tr><td>Noticeboard fact sheet</td><td class="num">1</td><td>Newsroom</td></tr>
+  <tr><td>Morse charts</td><td class="num">2</td><td>Rooftop</td></tr>
+  <tr><td>Word cards for relay</td><td class="num">6</td><td>Rooftop</td></tr>
+  <tr><td>Office props: wall calendar (circled date), ratings chart (one falsified bar), cipher memo</td><td class="num">1 set</td><td>Manager's Office — the three puzzle pieces of the lock code</td></tr>
+  <tr><td>Frequency hint props: poster, memo, coffee-stained logbook</td><td class="num">1 set</td><td>Control Room — each hides one frequency number</td></tr>
+  <tr><td>Archive rule card</td><td class="num">1</td><td>Record Archive</td></tr>
+  <tr><td>Doctor's note ("laryngitis — cannot speak")</td><td class="num">1</td><td>Green Room witness</td></tr>
+  <tr><td>Giant elimination grid (A2/A1, hand-drawn is fine)</td><td class="num">1</td><td>Reveal walkthrough</td></tr>
+</table></div>
+
+<h2>To make</h2>
+<ul>
+  <li>~25 cardboard "vinyl records" (cereal-box circles, handwritten labels: artist / year / catalogue no.) — Record Archive</li>
+  <li>Cardboard <b>ON AIR</b> signs ×2, toilet-roll-and-foil microphones ×2</li>
+  <li>Masking-tape body outline in the Live Studio</li>
+  <li>Room name signs for all 7 rooms + HQ</li>
+</ul>
+
+<h2>Borrowed / free</h2>
+<ul>
+  <li>Laptop ×2 (Control Room tuner app, HQ accusation terminal) + phone/tablet backup</li>
+  <li>Helpers' phones: recording (Studio), flashlights (Rooftop)</li>
+  <li>Church PA + mic for emcee</li>
+  <li>Costume bits from members' wardrobes — see each station page</li>
+</ul>
+
+<h2>Digital props (built in this repo, run offline)</h2>
+<div class="tablewrap"><table>
+  <tr><th>App</th><th>URL path</th><th>Station</th><th>Player-safe?</th></tr>
+  <tr><td>Frequency Tuner</td><td><code>/props/tuner/</code></td><td>Control Room</td><td>✅ fragments encrypted; unlock only at correct frequencies</td></tr>
+  <tr><td>Accusation Terminal</td><td><code>/props/accuse/</code></td><td>HQ desk</td><td>✅ answer stored as hash; enforces lock-outs; scoreboard</td></tr>
+  <tr><td>Morse Checker</td><td><code>/props/morse/</code></td><td>Rooftop (optional)</td><td>✅ answers hashed</td></tr>
+</table></div>
+<div class="callout"><b>Access rule:</b> players only ever get <code>/props/...</code> URLs (or the apps are simply pre-loaded on the station device). Those pages contain no links to this HQ and no readable answers in their source. This HQ is password-gated and encrypted.</div>
+
+<h2>Config values (committee only)</h2>
+<div class="spoiler">
+<ul>
+  <li><b>Tuner frequencies:</b> 92.6 / 98.1 / 104.7 — hidden in the poster, the memo, and the logbook respectively. Completion phrase assembled from fragments: <b>"THE SIGNAL HIDES IN THE STATIC"</b>.</li>
+  <li><b>Office lock code:</b> <b>7 · 2 · 6</b> (calendar date 7, falsified ratings bar month value 2, cipher memo answer 6). Change the padlock to match or regenerate props.</li>
+  <li><b>Morse relay words:</b> STATIC, ANTENNA. Checker completion code shown to players: <b>SIGNAL-6</b> (they must tell the room master).</li>
+  <li><b>Accusation answer:</b> set inside the terminal's GM setup screen on game day (not stored in the page source). It is: Tuner Tan / Poisoned coffee / Control Room.</li>
+</ul>
+</div>

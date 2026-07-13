@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Station Crew — HQ</title>
+<style>
+  :root{
+    --paper:#f7f4ed;--ink:#23201a;--soft:#5c564a;--line:#d9d3c4;--card:#fffdf8;
+    --accent:#8a2f2b;--accent-soft:#f0e2df;--gold:#a07a2c;--gold-soft:#efe6d2;
+    --good:#3a6b46;--tag:#ece7db;--dig:#2c5a78;--dig-soft:#e0eaf1;
+  }
+  @media (prefers-color-scheme: dark){:root{
+    --paper:#1c1a16;--ink:#ece7db;--soft:#a89f8d;--line:#3a362d;--card:#26231d;
+    --accent:#d4756f;--accent-soft:#3a2523;--gold:#c9a55a;--gold-soft:#332b1c;
+    --good:#7fb98d;--tag:#302c24;--dig:#7fb0d0;--dig-soft:#1f2e38;}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;line-height:1.6}
+  /* ---- gate ---- */
+  #gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+  #gate .box{max-width:22rem;width:100%;text-align:center}
+  #gate h1{font-family:Charter,Georgia,serif;margin:.3em 0}
+  #gate p{color:var(--soft);font-size:.9rem}
+  #gate input{width:100%;padding:.7rem 1rem;font-size:1rem;border:1px solid var(--line);
+    border-radius:6px;background:var(--card);color:var(--ink);text-align:center;letter-spacing:.1em}
+  #gate button{margin-top:.8rem;width:100%;padding:.7rem;font-size:1rem;font-weight:600;
+    border:none;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}
+  #gate .err{color:var(--accent);font-size:.85rem;min-height:1.4em;margin-top:.6rem}
+  /* ---- app ---- */
+  #app{display:none}
+  .layout{display:grid;grid-template-columns:15rem 1fr;min-height:100vh}
+  nav{border-right:1px solid var(--line);padding:1.2rem 1rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+  nav .brand{font-family:Charter,Georgia,serif;font-weight:700;font-size:1.05rem;margin-bottom:1rem}
+  nav .g{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:1.1rem 0 .3rem}
+  nav a{display:block;padding:.3rem .55rem;border-radius:5px;color:var(--ink);
+    text-decoration:none;font-size:.9rem}
+  nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  nav a:hover{background:var(--tag)}
+  main{padding:2rem clamp(1.2rem,4vw,3.5rem) 5rem;max-width:52rem}
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+  }
+  /* ---- shared content styles (used by hq-src fragments) ---- */
+  main h1{font-family:Charter,Georgia,serif;font-size:2rem;line-height:1.2;margin:.4rem 0;text-wrap:balance}
+  main h2{font-family:Charter,Georgia,serif;font-size:1.35rem;margin:2.2rem 0 .6rem;
+    border-bottom:2px solid var(--line);padding-bottom:.35rem}
+  main h3{font-family:Charter,Georgia,serif;font-size:1.08rem;margin:1.4rem 0 .4rem}
+  .eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1rem 1.25rem;margin:1rem 0}
+  .card h3{margin-top:0}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem}
+  .spoiler{background:var(--accent-soft);border:1px dashed var(--accent);border-radius:6px;padding:.9rem 1.2rem;margin:1.2rem 0}
+  .spoiler b{color:var(--accent)}
+  .callout{background:var(--gold-soft);border:1px solid var(--line);border-radius:6px;padding:.9rem 1.2rem;margin:1.2rem 0}
+  .tag{display:inline-block;background:var(--tag);border-radius:999px;padding:.06rem .6rem;font-size:.72rem;font-weight:600;letter-spacing:.05em;vertical-align:middle}
+  .tag.dig{background:var(--dig-soft);color:var(--dig)}
+  .tag.hand{background:var(--gold-soft);color:var(--gold)}
+  .tag.warn{background:var(--accent-soft);color:var(--accent)}
+  .tablewrap{overflow-x:auto;margin:1rem 0}
+  table{border-collapse:collapse;width:100%;font-size:.88rem}
+  th{text-align:left;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);
+    border-bottom:2px solid var(--line);padding:.45rem .6rem}
+  td{border-bottom:1px solid var(--line);padding:.5rem .6rem;vertical-align:top}
+  .num{font-variant-numeric:tabular-nums}
+  .strike{color:var(--soft);text-decoration:line-through}
+  .answer{color:var(--good);font-weight:700}
+  .script{font-family:Charter,Georgia,serif;font-style:italic;background:var(--tag);border-radius:4px;padding:.55rem .9rem;margin:.5rem 0}
+  .steps{display:grid;gap:.7rem;margin:1rem 0}
+  .step{display:grid;grid-template-columns:2rem 1fr;gap:.8rem;align-items:start}
+  .step .n{width:1.8rem;height:1.8rem;border-radius:50%;border:2px solid var(--accent);color:var(--accent);
+    font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Charter,Georgia,serif;margin-top:.1rem}
+  .step p{margin:.1rem 0}
+  ul,ol{padding-left:1.2rem}
+  li{margin:.3rem 0}
+  .do{color:var(--good)} .dont{color:var(--accent)}
+  .do::before{content:"✓ ";font-weight:700} .dont::before{content:"✗ ";font-weight:700}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="box">
+    <div style="font-size:2.4rem">📻</div>
+    <h1>Station Crew HQ</h1>
+    <p>Committee access only. Enter the crew password.</p>
+    <input id="pw" type="password" autocomplete="off" autofocus>
+    <button id="go">Unlock</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div id="app"><div class="layout">
+  <nav id="nav"><div class="brand">📻 Dead Air — HQ</div></nav>
+  <main id="page"></main>
+</div></div>
+
+<script>
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+let DB = null;
+
+async function unlock() {
+  const pw = document.getElementById("pw").value;
+  const err = document.getElementById("err");
+  err.textContent = "";
+  try {
+    const res = await fetch("payload.json", { cache: "no-store" });
+    const p = await res.json();
+    const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+    const key = await crypto.subtle.deriveKey(
+      { name: "PBKDF2", salt: b64(p.salt), iterations: p.iter, hash: "SHA-256" },
+      km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(p.iv) }, key, b64(p.data));
+    DB = JSON.parse(new TextDecoder().decode(plain));
+    document.getElementById("gate").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    buildNav();
+    route();
+  } catch (e) {
+    err.textContent = "Wrong password — static on the line.";
+  }
+}
+document.getElementById("go").addEventListener("click", unlock);
+document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
+
+function buildNav() {
+  const nav = document.getElementById("nav");
+  let group = null;
+  for (const pg of DB.pages) {
+    if (pg.group !== group) {
+      group = pg.group;
+      const g = document.createElement("div");
+      g.className = "g"; g.textContent = group;
+      nav.appendChild(g);
+    }
+    const a = document.createElement("a");
+    a.href = "#" + pg.id; a.textContent = pg.title; a.dataset.id = pg.id;
+    nav.appendChild(a);
+  }
+}
+function route() {
+  if (!DB) return;
+  const id = location.hash.slice(1) || DB.pages[0].id;
+  const pg = DB.pages.find(p => p.id === id) || DB.pages[0];
+  document.getElementById("page").innerHTML = pg.html;
+  document.querySelectorAll("nav a").forEach(a => a.classList.toggle("on", a.dataset.id === pg.id));
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+</script>
+</body>
+</html>

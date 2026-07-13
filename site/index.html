@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Radio 1926 FM</title>
+<style>
+  :root{--bg:#14120e;--ink:#ece7db;--soft:#a89f8d;--accent:#d4756f;--gold:#c9a55a;--line:#3a362d}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at 50% -20%, #26231d, var(--bg));color:var(--ink);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;text-align:center;padding:2rem}
+  h1{font-family:Charter,Georgia,serif;font-size:clamp(2.2rem,7vw,3.6rem);margin:.2em 0;letter-spacing:.02em}
+  .freq{color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:.35em;font-size:.85rem;text-transform:uppercase}
+  .onair{display:inline-block;border:2px solid var(--accent);color:var(--accent);border-radius:6px;
+    padding:.3rem 1.2rem;font-weight:700;letter-spacing:.3em;margin:1.2rem 0;animation:flick 2.4s infinite}
+  @keyframes flick{0%,92%,96%,100%{opacity:1}94%,98%{opacity:.25}}
+  @media (prefers-reduced-motion: reduce){.onair{animation:none}}
+  p{color:var(--soft);max-width:28rem;margin:1rem auto;line-height:1.6}
+  a.crew{color:var(--soft);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;
+    text-decoration:none;border-bottom:1px dotted var(--soft);opacity:.7}
+  a.crew:hover{color:var(--gold);border-color:var(--gold)}
+  .wrap{max-width:34rem}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="freq">· · · Broadcasting since 1926 · · ·</div>
+    <h1>RADIO 1926 FM</h1>
+    <div class="onair">ON AIR</div>
+    <p>We are currently experiencing technical difficulties.<br>Normal programming will resume shortly.</p>
+    <p style="font-size:3rem;margin:.2em">📻</p>
+    <a class="crew" href="hq/">station crew entrance</a>
+  </div>
+</body>
+</html>

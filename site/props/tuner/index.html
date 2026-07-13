@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>RX-1926 Receiver</title>
+<style>
+  :root{--bg:#14120e;--panel:#26231d;--ink:#ece7db;--soft:#a89f8d;--gold:#c9a55a;--green:#7fb98d;--red:#d4756f;--line:#3a362d}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at 50% -20%, #211e18, var(--bg));color:var(--ink);
+    font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;padding:1.5rem}
+  .radio{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:34rem;width:100%;
+    padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  h1{font-family:Charter,Georgia,serif;font-size:1.3rem;margin:0 0 .2rem;letter-spacing:.05em}
+  .sub{color:var(--soft);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.5rem}
+  .display{background:#0c0b08;border:1px solid var(--line);border-radius:8px;padding:1rem 1.2rem;text-align:center;margin-bottom:1.2rem}
+  .freq{font-size:3rem;font-variant-numeric:tabular-nums;color:var(--gold);font-weight:600;letter-spacing:.05em;line-height:1.1}
+  .freq small{font-size:1.1rem;color:var(--soft)}
+  .status{min-height:1.6em;font-size:.9rem;color:var(--soft);letter-spacing:.08em}
+  .status.locked{color:var(--green);font-weight:600}
+  input[type=range]{width:100%;margin:1rem 0;accent-color:var(--gold)}
+  .fine{display:flex;gap:.6rem;justify-content:center;margin-bottom:1.2rem}
+  .fine button{background:#0c0b08;border:1px solid var(--line);color:var(--ink);border-radius:6px;
+    padding:.5rem 1.1rem;font-size:1.05rem;cursor:pointer;min-width:3.2rem}
+  .fine button:active{background:var(--line)}
+  .signals{display:flex;gap:.6rem}
+  .sig{flex:1;border:1px solid var(--line);border-radius:8px;padding:.6rem;text-align:center;font-size:.78rem;
+    color:var(--soft);letter-spacing:.06em}
+  .sig.found{border-color:var(--green);color:var(--green)}
+  .sig .lamp{display:block;width:.7rem;height:.7rem;border-radius:50%;background:#3a362d;margin:0 auto .35rem}
+  .sig.found .lamp{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .frag{font-family:Charter,Georgia,serif;font-style:italic;font-size:.95rem;color:var(--ink);min-height:1.4em;margin-top:.3rem}
+  .done{margin-top:1.2rem;border:1px dashed var(--gold);border-radius:8px;padding:.9rem;text-align:center;
+    color:var(--gold);display:none}
+  .power{margin-top:1rem;text-align:center}
+  .power button{background:var(--red);border:none;color:#14120e;font-weight:700;border-radius:999px;
+    padding:.6rem 2rem;cursor:pointer;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div class="radio">
+  <h1>RX-1926 FIELD RECEIVER</h1>
+  <div class="sub">Property of Radio 1926 FM · Engineering Dept.</div>
+  <div class="display">
+    <div class="freq"><span id="f">88.0</span> <small>MHz</small></div>
+    <div class="status" id="status">— receiver off —</div>
+  </div>
+  <input type="range" id="dial" min="880" max="1080" value="880" step="1" aria-label="Frequency dial">
+  <div class="fine">
+    <button id="down" aria-label="Fine tune down">−</button>
+    <button id="up" aria-label="Fine tune up">+</button>
+  </div>
+  <div class="signals" id="sigs"></div>
+  <div class="done" id="done"><b>TRANSMISSION COMPLETE.</b><br>Report the full recovered phrase to the engineer on duty.</div>
+  <div class="power"><button id="power">POWER ON</button></div>
+</div>
+
+<script>
+// Three intercepted transmissions, AES-GCM encrypted; the key is derived from
+// the correct frequency itself, so the source code cannot reveal either.
+const SIGNALS = [
+  {iv:"i4S/36+LdoKGqGnF",data:"+IYh+ubGjV64GXBSfjyzKfC/9Cx0mA+wdyY="},
+  {iv:"QGp5WzZESO4p/u/x",data:"AB2pWjLZdpoQAwUr2YS7g18+Zamhnezl"},
+  {iv:"FZumgQrLxCp2extr",data:"xq5+04kNLmtB2NbJxaKg5xbLhFmvobAkk4c="},
+];
+const found = [null, null, null];
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+// UI
+const sigsEl = document.getElementById("sigs");
+SIGNALS.forEach((_, i) => {
+  const d = document.createElement("div");
+  d.className = "sig"; d.id = "sig" + i;
+  d.innerHTML = '<span class="lamp"></span>SIGNAL ' + (i + 1) + '<div class="frag"></div>';
+  sigsEl.appendChild(d);
+});
+const dial = document.getElementById("dial");
+const fEl = document.getElementById("f");
+const statusEl = document.getElementById("status");
+
+// Audio: static bed
+let ctx = null, staticGain = null, on = false;
+function powerOn() {
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const len = ctx.sampleRate * 2;
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * 0.5;
+  const src = ctx.createBufferSource();
+  src.buffer = buf; src.loop = true;
+  staticGain = ctx.createGain(); staticGain.gain.value = 0.25;
+  src.connect(staticGain).connect(ctx.destination);
+  src.start();
+  on = true;
+  document.getElementById("power").style.display = "none";
+  statusEl.textContent = "static…";
+  tune();
+}
+document.getElementById("power").addEventListener("click", powerOn);
+
+function speak(text) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 0.75; u.pitch = 0.6;
+  speechSynthesis.speak(u);
+}
+
+async function tryDecrypt(freqStr, sig) {
+  try {
+    const keyBytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(freqStr));
+    const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, ["decrypt"]);
+    const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(sig.iv) }, key, b64(sig.data));
+    return new TextDecoder().decode(pt);
+  } catch { return null; }
+}
+
+let tuneTimer = null;
+function tune() {
+  const freqStr = (dial.value / 10).toFixed(1);
+  fEl.textContent = freqStr;
+  if (!on) return;
+  clearTimeout(tuneTimer);
+  statusEl.className = "status";
+  statusEl.textContent = "static…";
+  if (staticGain) staticGain.gain.setTargetAtTime(0.25, ctx.currentTime, 0.05);
+  // require holding a frequency briefly, like real tuning
+  tuneTimer = setTimeout(async () => {
+    for (let i = 0; i < SIGNALS.length; i++) {
+      if (found[i]) continue;
+      const text = await tryDecrypt(freqStr, SIGNALS[i]);
+      if (text) {
+        found[i] = text;
+        const el = document.getElementById("sig" + i);
+        el.classList.add("found");
+        el.querySelector(".frag").textContent = "“" + text + "”";
+        statusEl.className = "status locked";
+        statusEl.textContent = "SIGNAL LOCKED — " + freqStr + " MHz";
+        staticGain.gain.setTargetAtTime(0.03, ctx.currentTime, 0.1);
+        speak(text + ". I repeat. " + text + ".");
+        if (found.every(Boolean)) document.getElementById("done").style.display = "block";
+        return;
+      }
+    }
+  }, 600);
+}
+dial.addEventListener("input", tune);
+document.getElementById("up").addEventListener("click", () => { dial.value = +dial.value + 1; tune(); });
+document.getElementById("down").addEventListener("click", () => { dial.value = +dial.value - 1; tune(); });
+</script>
+</body>
+</html>

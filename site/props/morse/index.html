@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Signal Verification Post</title>
+<style>
+  :root{--bg:#14120e;--panel:#26231d;--ink:#ece7db;--soft:#a89f8d;--gold:#c9a55a;--green:#7fb98d;--red:#d4756f;--line:#3a362d}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:var(--bg);color:var(--ink);font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;padding:1.5rem}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:30rem;width:100%;padding:2rem}
+  h1{font-family:Charter,Georgia,serif;font-size:1.25rem;margin:0 0 .2rem}
+  .sub{color:var(--soft);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.4rem}
+  label{display:block;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin:1rem 0 .3rem}
+  .row{display:flex;gap:.6rem}
+  input{flex:1;padding:.65rem .9rem;font-size:1.05rem;letter-spacing:.2em;text-transform:uppercase;
+    background:#0c0b08;border:1px solid var(--line);border-radius:6px;color:var(--ink)}
+  button{padding:.65rem 1.2rem;border:none;border-radius:6px;background:var(--gold);color:#14120e;font-weight:700;cursor:pointer}
+  .st{min-height:1.4em;font-size:.85rem;margin-top:.3rem}
+  .ok{color:var(--green)} .no{color:var(--red)}
+  .code{display:none;margin-top:1.4rem;border:1px dashed var(--green);border-radius:8px;padding:1rem;text-align:center}
+  .code b{font-size:1.5rem;letter-spacing:.25em;color:var(--green)}
+  .code p{color:var(--soft);font-size:.85rem;margin:.4rem 0 0}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>SIGNAL VERIFICATION POST</h1>
+  <div class="sub">Rooftop relay · Radio 1926 FM</div>
+
+  <label for="w1">Received transmission № 1</label>
+  <div class="row"><input id="w1" autocomplete="off"><button data-i="0">Verify</button></div>
+  <div class="st" id="s0"></div>
+
+  <label for="w2">Received transmission № 2</label>
+  <div class="row"><input id="w2" autocomplete="off"><button data-i="1">Verify</button></div>
+  <div class="st" id="s1"></div>
+
+  <div class="code" id="code"><b>SIGNAL-6</b><p>Both transmissions verified. Report this code to the station staff on duty.</p></div>
+</div>
+
+<script>
+// Expected words stored as salted SHA-256 hashes — not readable from source.
+const HASHES = [
+  "3d8521fb87b6ff3315cfb3e52a1227bc79104e3237ecdba6e373c0cc6c36451c",
+  "8eb1bd7f45f00bce6c7ef8d59ff5da174a5c74d5de5b55d790957e7cea7c6892",
+];
+const ok = [false, false];
+async function sha(s) {
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+document.querySelectorAll("button").forEach(btn => btn.addEventListener("click", async () => {
+  const i = +btn.dataset.i;
+  const val = document.getElementById("w" + (i + 1)).value.trim().toUpperCase();
+  const st = document.getElementById("s" + i);
+  if (await sha("morse:" + val) === HASHES[i]) {
+    ok[i] = true;
+    st.textContent = "✓ VERIFIED"; st.className = "st ok";
+    if (ok[0] && ok[1]) document.getElementById("code").style.display = "block";
+  } else {
+    st.textContent = "✗ Garbled transmission. Signal again."; st.className = "st no";
+  }
+}));
+</script>
+</body>
+</html>

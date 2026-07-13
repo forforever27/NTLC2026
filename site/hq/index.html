@@ -206,8 +206,9 @@ function route() {
   page.innerHTML = pg.html;
   const h2s = [...page.querySelectorAll("h2")];
   if (h2s.length >= 4) {
-    const toc = document.createElement("nav");
+    const toc = document.createElement("div");
     toc.className = "ptoc";
+    toc.setAttribute("role", "navigation");
     h2s.forEach((h, i) => {
       h.id = "s" + (i + 1);
       const a = document.createElement("a");

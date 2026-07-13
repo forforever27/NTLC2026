@@ -111,6 +111,17 @@
   li{margin:.3rem 0}
   .do{color:var(--good)} .dont{color:var(--accent)}
   .do::before{content:"✓ ";font-weight:700} .dont::before{content:"✗ ";font-weight:700}
+  /* ---- role briefing card ---- */
+  .brief{border:1px solid var(--ink);border-radius:3px;background:var(--card);margin:1.4rem 0 2.2rem;overflow:hidden}
+  .brief .bh{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--paper);background:var(--ink);padding:.45rem .9rem}
+  .brief .bb{padding:.9rem 1rem 1rem}
+  .brief ul{margin:.2rem 0;padding-left:1.1rem}
+  .brief li{margin:.45rem 0}
+  .brief .facts{display:flex;flex-wrap:wrap;gap:.4rem .6rem;margin-top:.9rem}
+  .brief .facts span{font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;border:1px solid var(--line);
+    border-radius:2px;padding:.15rem .5rem;color:var(--soft)}
+  .brief .facts b{color:var(--accent);font-weight:700}
   /* ---- on-this-page toc ---- */
   .ptoc{display:flex;flex-wrap:wrap;gap:.35rem .8rem;margin:1.1rem 0 .4rem;padding:0}
   .ptoc a{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;color:var(--soft);

@@ -23,15 +23,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Encrypt committee HQ content
-        env:
-          HQ_PASSWORD: ${{ secrets.HQ_PASSWORD }}
-        run: |
-          if [ -z "$HQ_PASSWORD" ]; then
-            echo "::error::Repo secret HQ_PASSWORD is not set (Settings -> Secrets and variables -> Actions)."
-            exit 1
-          fi
-          node tools/build-hq.mjs
+      - name: Bundle committee HQ content
+        run: node tools/build-hq.mjs
       - name: Exclude plaintext sources from deployment
         run: |
           mkdir deploy

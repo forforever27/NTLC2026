@@ -18,21 +18,13 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;line-height:1.6}
-  /* ---- gate ---- */
-  #gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
-  #gate .box{max-width:22rem;width:100%;text-align:center}
-  #gate h1{font-family:Charter,Georgia,serif;margin:.3em 0}
-  #gate p{color:var(--soft);font-size:.9rem}
-  #gate input{width:100%;padding:.7rem 1rem;font-size:1rem;border:1px solid var(--line);
-    border-radius:6px;background:var(--card);color:var(--ink);text-align:center;letter-spacing:.1em}
-  #gate button{margin-top:.8rem;width:100%;padding:.7rem;font-size:1rem;font-weight:600;
-    border:none;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}
-  #gate .err{color:var(--accent);font-size:.85rem;min-height:1.4em;margin-top:.6rem}
   /* ---- app ---- */
   #app{display:none}
   .layout{display:grid;grid-template-columns:15rem 1fr;min-height:100vh}
   nav{border-right:1px solid var(--line);padding:1.2rem 1rem;position:sticky;top:0;height:100vh;overflow-y:auto}
-  nav .brand{font-family:Charter,Georgia,serif;font-weight:700;font-size:1.05rem;margin-bottom:1rem}
+  nav .brand{font-family:Charter,Georgia,serif;font-weight:700;font-size:1.05rem;margin-bottom:.2rem}
+  nav .home{display:block;font-size:.72rem;color:var(--soft);text-decoration:none;margin-bottom:1rem;padding:0 .1rem}
+  nav .home:hover{color:var(--gold);background:none}
   nav .g{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:1.1rem 0 .3rem}
   nav a{display:block;padding:.3rem .55rem;border-radius:5px;color:var(--ink);
     text-decoration:none;font-size:.9rem}
@@ -92,19 +84,8 @@
 </style>
 </head>
 <body>
-<div id="gate">
-  <div class="box">
-    <div><svg viewBox="0 0 24 24" width="44" height="44" style="margin-bottom:.4rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg></div>
-    <h1>Station Crew HQ</h1>
-    <p><span class="en">Committee access only. Enter the crew password.</span><span class="zh">仅限筹委进入。请输入工作人员密码。</span></p>
-    <input id="pw" type="password" autocomplete="off" autofocus>
-    <button id="go"><span class="en">Unlock</span><span class="zh inline">解锁</span></button>
-    <div class="err" id="err"></div>
-  </div>
-</div>
-
 <div id="app"><div class="layout">
-  <nav id="nav"><div class="brand"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:.3rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg>Dead Air — HQ</div></nav>
+  <nav id="nav"><div class="brand"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:.3rem" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l9-5M6.5 12h6M6.5 15h6"/><circle cx="17" cy="14" r="2.5"/></svg>Dead Air — HQ</div><a class="home" href="../">← Radio 1926 FM <span class="en inline" style="display:inline">home</span> <span class="zh inline">首页</span></a></nav>
   <main id="page"></main>
 </div></div>
 
@@ -121,34 +102,16 @@ const setLang = l => {
 document.querySelectorAll("#langsw button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.l)));
 setLang((() => { try { return localStorage.getItem("da:lang") || "en"; } catch { return "en"; } })());
 
-const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 let DB = null;
 
-async function unlock() {
-  const pw = document.getElementById("pw").value;
-  const err = document.getElementById("err");
-  err.textContent = "";
-  try {
-    const res = await fetch("payload.json", { cache: "no-store" });
-    const p = await res.json();
-    const km = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
-    const key = await crypto.subtle.deriveKey(
-      { name: "PBKDF2", salt: b64(p.salt), iterations: p.iter, hash: "SHA-256" },
-      km, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
-    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(p.iv) }, key, b64(p.data));
-    DB = JSON.parse(new TextDecoder().decode(plain));
-    document.getElementById("gate").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    buildNav();
-    route();
-  } catch (e) {
-    err.textContent = document.documentElement.dataset.lang === "zh"
-      ? "密码错误——线路上只有杂音。"
-      : "Wrong password — static on the line.";
-  }
+async function load() {
+  const res = await fetch("payload.json", { cache: "no-store" });
+  DB = await res.json();
+  document.getElementById("app").style.display = "block";
+  buildNav();
+  route();
 }
-document.getElementById("go").addEventListener("click", unlock);
-document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
+load();
 
 function buildNav() {
   const nav = document.getElementById("nav");

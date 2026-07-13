@@ -15,7 +15,7 @@ if (!password) {
 
 // Page order & grouping for the sidebar. id = filename without .html
 const NAV = [
-  { group: "Plan", pages: ["overview", "case-file", "run-sheet", "props-checklist"] },
+  { group: "Plan", pages: ["overview", "case-file", "night-of", "run-sheet", "flavor", "props-checklist", "print-pack"] },
   { group: "Stations", pages: [
     "roles/studio-stella", "roles/control-tan", "roles/archive-intern",
     "roles/newsroom-echo", "roles/greenroom-witness", "roles/rooftop-joe",

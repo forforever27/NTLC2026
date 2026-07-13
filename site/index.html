@@ -13,11 +13,17 @@
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
     background:radial-gradient(120% 90% at 50% -10%, #2b2620 0%, var(--bg) 55%, #0e0c09 100%);color:var(--ink);
     font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;padding:2.5rem 1.3rem 4rem}
-  /* broadcast texture: scanlines + vignette */
+  /* broadcast texture: scanlines + vignette + VHS film frame */
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;
     background:repeating-linear-gradient(0deg,rgba(0,0,0,.32) 0 1px,transparent 1px 3px)}
   body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:6;
-    background:radial-gradient(90% 75% at 50% 45%, transparent 55%, rgba(0,0,0,.5) 100%)}
+    background:radial-gradient(85% 70% at 50% 45%, transparent 48%, rgba(0,0,0,.62) 100%)}
+  .crtframe{position:fixed;inset:7px;pointer-events:none;z-index:7;border-radius:14px;
+    box-shadow:0 0 0 8px #070604, inset 0 0 42px rgba(0,0,0,.55);border:1px solid rgba(236,231,219,.07)}
+  .chip{position:fixed;top:22px;right:26px;z-index:8;font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.22em;color:var(--soft);border:1px solid var(--line);border-radius:2px;
+    padding:.18rem .55rem;background:rgba(0,0,0,.35)}
+  .chip b{color:var(--accent);animation:blink 1.6s infinite}
   .wrap{max-width:34rem;width:100%;position:relative;z-index:10}
   /* masthead */
   .meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;
@@ -26,13 +32,16 @@
   .meta .live{color:var(--accent)}
   .meta .live::before{content:"●";font-size:.55rem;margin-right:.4rem;animation:blink 1.6s infinite}
   @keyframes blink{0%,60%,100%{opacity:1}80%{opacity:.15}}
-  h1{font-family:var(--serif);font-size:clamp(2.6rem,11vw,4.2rem);margin:.35em 0 .05em;letter-spacing:-.015em;
-    line-height:1;text-align:center}
+  h1{font-family:var(--serif);font-size:clamp(3rem,14vw,5.6rem);margin:.3em 0 .02em;letter-spacing:-.02em;
+    line-height:.96;text-align:center;color:#f4efe2;position:relative;
+    text-shadow:-2px 0 1px rgba(255,84,72,.5), 2px 0 1px rgba(96,160,255,.38), 0 0 22px rgba(244,239,226,.22)}
+  .spark{position:absolute;color:#f4efe2;font-size:1.1rem;text-shadow:0 0 8px rgba(244,239,226,.6)}
   .tag2{font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
     text-align:center;margin-bottom:1.6rem}
   .onair{display:block;width:max-content;margin:0 auto 1.8rem;border:1.5px solid var(--accent);color:var(--accent);
     border-radius:3px;padding:.28rem 1.3rem .24rem;font-family:var(--mono);font-weight:700;font-size:.78rem;
-    letter-spacing:.42em;text-indent:.42em;animation:flick 3.2s infinite}
+    letter-spacing:.42em;text-indent:.42em;animation:flick 3.2s infinite;
+    text-shadow:0 0 12px rgba(212,117,111,.65);box-shadow:0 0 18px rgba(212,117,111,.18), inset 0 0 10px rgba(212,117,111,.1)}
   @keyframes flick{0%,90%,94%,100%{opacity:1}92%,97%{opacity:.2}}
   @media (prefers-reduced-motion: reduce){.onair,.meta .live::before{animation:none}}
   .notice{color:var(--soft);text-align:center;max-width:26rem;margin:0 auto 1.4rem;line-height:1.7;font-size:.92rem;
@@ -51,7 +60,9 @@
   .dex .t .zh{font-family:inherit;font-size:.85rem;color:var(--soft);margin-top:.05rem}
   .dex .d{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);
     text-align:right;max-width:11rem}
+  .dex .t .en,.dex .t>.zh{text-decoration:underline;text-decoration-style:dotted;text-decoration-color:var(--line);text-underline-offset:4px}
   .dex a:hover .t{color:var(--gold)}
+  .dex a:hover .t .en,.dex a:hover .t>.zh{text-decoration-color:var(--gold)}
   .dex a.hub .no,.dex a.hub .t{color:var(--accent)}
   .dex a.hub:hover{background:rgba(212,117,111,.07)}
   .dex .arr{margin-left:.5rem;color:var(--gold)}
@@ -73,13 +84,15 @@
 </style>
 </head>
 <body>
+  <div class="crtframe" aria-hidden="true"></div>
+  <div class="chip"><b>●</b> REC · CH 1926</div>
   <div class="wrap">
     <div class="meta">
       <span>EST. 1926 · AM/FM</span>
       <span class="live"><span class="en inline" style="display:inline">Signal lost</span><span class="zh inline">信号中断</span></span>
       <span>1926 kHz</span>
     </div>
-    <h1>RADIO 1926</h1>
+    <h1>RADIO 1926<span class="spark" style="top:-.35em;right:.4em">✧</span><span class="spark" style="bottom:-.15em;left:.5em;font-size:.75rem">✦</span></h1>
     <div class="tag2"><span class="en inline" style="display:inline">The voice of the night</span><span class="zh inline">深夜之声</span></div>
     <div class="onair">ON AIR</div>
     <p class="notice"><span class="en">We are currently experiencing technical difficulties.<br>Normal programming will resume shortly.</span><span class="zh">本台目前遇到技术故障。<br>正常节目将稍后恢复，敬请谅解。</span></p>

@@ -25,6 +25,13 @@
     opacity:.35;mix-blend-mode:multiply}
   @media (prefers-color-scheme:dark){body::after{background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);mix-blend-mode:normal;opacity:.25}}
   @media print{body::after{display:none}}
+  @media (prefers-color-scheme:dark){
+    main h1{text-shadow:-1.5px 0 1px rgba(255,84,72,.35), 1.5px 0 1px rgba(96,160,255,.25)}
+    nav .brand{text-shadow:-1px 0 1px rgba(255,84,72,.3), 1px 0 1px rgba(96,160,255,.22)}
+  }
+  main a{color:var(--ink);text-decoration:underline;text-decoration-style:dotted;
+    text-decoration-color:var(--gold);text-underline-offset:3px}
+  main a:hover{color:var(--gold)}
   /* ---- app ---- */
   #app{display:none}
   .layout{display:grid;grid-template-columns:16rem 1fr;min-height:100vh}

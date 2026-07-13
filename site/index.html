@@ -19,10 +19,12 @@
   @media (prefers-reduced-motion: reduce){.onair{animation:none}}
   p{color:var(--soft);max-width:28rem;margin:1rem auto;line-height:1.6}
   .wrap{max-width:38rem}
-  .navgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:.7rem;margin:1.6rem 0 .5rem}
-  .navgrid a{display:block;background:#26231d;border:1px solid var(--line);border-radius:10px;
-    padding:1rem .9rem;text-decoration:none;color:var(--ink);text-align:center;transition:border-color .15s}
-  .navgrid a:hover{border-color:var(--gold)}
+  .navgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.7rem;margin:1.6rem 0 .5rem}
+  .navgrid a{display:block;background:linear-gradient(175deg,#2b2820,#221f19);border:1px solid var(--line);border-radius:14px;
+    padding:1.1rem .9rem 1rem;text-decoration:none;color:var(--ink);text-align:center;
+    transition:border-color .15s,transform .15s,box-shadow .15s;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .navgrid a:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
+  .navgrid a:active{transform:translateY(-1px)}
   .navgrid svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.4rem}
   .navgrid .t{display:block;font-weight:700;font-size:.92rem}
   .navgrid .d{display:block;color:var(--soft);font-size:.75rem;margin-top:.2rem}
